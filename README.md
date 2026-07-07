@@ -43,9 +43,16 @@ Download the latest APK from [Releases](https://github.com/dixi3stdgdl-design/sy
 
 ```
 app/
-├── src/main/java/com/example/myapplication/
+├── src/main/java/com/synthlens/app/
 │   ├── MainActivity.kt          # Entry point
-│   ├── SynthLensSplash.kt       # Splash screen
+│   ├── engine/                  # Audio engine, FFT, ML classifier
+│   ├── data/                    # Database, entities, repository
+│   ├── viewmodel/               # MVVM view models
+│   ├── ui/
+│   │   ├── screens/             # All 12+ screens
+│   │   ├── components/          # Reusable UI components
+│   │   ├── navigation/          # Navigation routes
+│   │   └── theme/               # Colors, typography, theme
 │   └── ...
 ├── src/main/res/
 │   ├── layout/                  # XML layouts
