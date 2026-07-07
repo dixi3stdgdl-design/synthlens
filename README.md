@@ -23,7 +23,7 @@ SynthLens listens to audio input and identifies synthesizers, analyzing their os
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/SynthLens.git
+git clone https://github.com/dixi3stdgdl-design/synthlens.git
 
 # Open in Android Studio
 # Build and run on device or emulator
@@ -31,7 +31,7 @@ git clone https://github.com/yourusername/SynthLens.git
 
 ### APK Download
 
-Download the latest APK from [Releases](https://github.com/yourusername/SynthLens/releases)
+Download the latest APK from [Releases](https://github.com/dixi3stdgdl-design/synthlens/releases)
 
 ## Requirements
 
@@ -102,9 +102,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-- **Twitter:** [@yourusername](https://twitter.com/yourusername)
-- **Email:** your@email.com
-- **GitHub:** [github.com/yourusername](https://github.com/yourusername)
+- **GitHub:** [dixi3stdgdl-design](https://github.com/dixi3stdgdl-design)
 
 ---
 
