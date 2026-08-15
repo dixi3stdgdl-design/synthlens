@@ -124,6 +124,6 @@ This project is open-source and licensed under the MIT License - see the [LICENS
 ---
 
 <p align="center">
-  <b>Built with ❤️ by the MiMo Team</b><br>
+  <b>Built with ❤️ by Dixi3 Lqbs With MiMo Team</b><br>
   <a href="https://github.com/dixi3stdgdl-design">GitHub Profile</a>
 </p>
