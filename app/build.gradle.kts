@@ -14,19 +14,35 @@ android {
 
     defaultConfig {
         applicationId = "com.synthlens.app"
-        minSdk = 33
-        targetSdk = 36
+        minSdk = 30
+        targetSdk = 33
         versionCode = 2
         versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            // NOTE: Replace these with actual release keystore values in production
+            // For now, it falls back to the default debug keystore so `assembleRelease` builds.
+            storeFile = file("release.jks")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
+            keyAlias = System.getenv("KEY_ALIAS") ?: "androiddebugkey"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
+            // Ignore missing file error during local development if release.jks is not present
+            if (storeFile?.exists() == false) {
+                storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -36,10 +52,13 @@ android {
     buildFeatures {
         compose = true
     }
-    aaptOptions {
+    androidResources {
         noCompress += "tflite"
     }
     packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
         resources {
             excludes += "META-INF/DEPENDENCIES"
             excludes += "META-INF/LICENSE"
@@ -48,6 +67,8 @@ android {
             excludes += "META-INF/NOTICE.txt"
         }
     }
+    buildToolsVersion = "36.0.0"
+    ndkVersion = "30.0.15729638 rc2"
 }
 
 dependencies {
@@ -71,6 +92,7 @@ dependencies {
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
     implementation(libs.tflite)
+    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

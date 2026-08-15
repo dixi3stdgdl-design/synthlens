@@ -36,7 +36,11 @@ fun ProfileScreen(
     onNavigateToDAW: () -> Unit = {},
     onNavigateToScanner: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
-    onNavigateToAchievements: () -> Unit = {}
+    onNavigateToAchievements: () -> Unit = {},
+    onNavigateToBatchProcessing: () -> Unit = {},
+    onNavigateToCloudWorkspace: () -> Unit = {},
+    onNavigateToHardwareIntegration: () -> Unit = {},
+    onNavigateToQADashboard: () -> Unit = {}
 ) {
     val detectedCount by viewModel.detectedCount.collectAsState()
     val totalCount by viewModel.totalCount.collectAsState()
@@ -100,6 +104,7 @@ fun ProfileScreen(
                 FeatureButton("A/B_COMPARE", "Compare two synths side by side", Icons.Default.Compare, SynthCyan, onNavigateToABCompare)
                 FeatureButton("EXPORT_SHARE", "Share detections to social media", Icons.Default.Share, SynthGreen, onNavigateToExport)
                 FeatureButton("STAGE_MODE", "Large display for live performance", Icons.Default.RocketLaunch, SynthMagenta, onNavigateToStageMode)
+                FeatureButton("BATCH_PROCESSING", "Offline audio processing and dataset generation", Icons.Default.Audiotrack, SynthCyan, onNavigateToBatchProcessing)
                 FeatureButton("DAW_INTEGRATION", "MIDI/OSC output for your DAW", Icons.Default.SettingsInputHdmi, SynthPurple, onNavigateToDAW)
                 FeatureButton("CAMERA_SCANNER", "Visual synth detection via camera", Icons.Default.CameraAlt, SynthCyan, onNavigateToScanner)
                 FeatureButton("SETTINGS", "App configuration", Icons.Default.Tune, DarkOnSurfaceVariant, onNavigateToSettings)
@@ -139,6 +144,54 @@ fun ProfileScreen(
                         }
                         Text("$detectedInBrand/${synths.size}", color = SynthCyan.copy(alpha = 0.6f), fontSize = 9.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.padding(start = 8.dp))
                     }
+                }
+                
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Button(
+                    onClick = { onNavigateToBatchProcessing() },
+                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = SynthCyan)
+                ) {
+                    Icon(Icons.Default.LibraryBooks, contentDescription = null, tint = DarkBackground)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("BATCH AUDIO PROCESSING", color = DarkBackground, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold)
+                }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = { onNavigateToCloudWorkspace() },
+                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = SynthPurple)
+                ) {
+                    Icon(Icons.Default.Cloud, contentDescription = null, tint = Color.White)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("CLOUD WORKSPACE SYNC", color = Color.White, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold)
+                }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = { onNavigateToHardwareIntegration() },
+                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = SynthMagenta)
+                ) {
+                    Icon(Icons.Default.Cable, contentDescription = null, tint = Color.White)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("HARDWARE MIDI LINK", color = Color.White, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold)
+                }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = { onNavigateToQADashboard() },
+                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Green.copy(alpha = 0.8f))
+                ) {
+                    Icon(Icons.Default.FactCheck, contentDescription = null, tint = DarkBackground)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("QA SDK DASHBOARD", color = DarkBackground, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold)
                 }
             }
         }

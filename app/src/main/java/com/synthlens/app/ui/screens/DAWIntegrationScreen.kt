@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +25,9 @@ import androidx.compose.ui.unit.sp
 import com.synthlens.app.engine.AudioEngine
 import com.synthlens.app.ui.components.*
 import com.synthlens.app.ui.theme.*
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import com.synthlens.app.engine.daw.DAWExportService
 
 @Composable
 fun DAWIntegrationScreen(audioEngine: AudioEngine) {
@@ -34,6 +38,15 @@ fun DAWIntegrationScreen(audioEngine: AudioEngine) {
 
     var midiNote by remember { mutableStateOf(0) }
     var midiChannel by remember { mutableStateOf(0) }
+
+    val dawExportService = remember { DAWExportService(context) }
+    val exportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("text/xml")
+    ) { uri ->
+        uri?.let {
+            dawExportService.exportToAbletonXML(it, detected, analysis)
+        }
+    }
 
     val noteNames = arrayOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 
@@ -217,6 +230,37 @@ fun DAWIntegrationScreen(audioEngine: AudioEngine) {
                     }
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = { exportLauncher.launch("synthlens_patch.xml") },
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = SynthCyan)
+        ) {
+            Icon(Icons.Default.Save, contentDescription = null, tint = DarkBackground)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("EXPORT ABLETON TEMPLATE", color = DarkBackground, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        val scope = rememberCoroutineScope()
+        Button(
+            onClick = { 
+                val oscSender = com.synthlens.app.engine.daw.OscSender("127.0.0.1", 8000)
+                scope.launch {
+                    oscSender.sendMessage("/synthlens/note", midiNote)
+                    oscSender.sendMessage("/synthlens/cutoff", analysis.spectralRolloff / 22050f)
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = SynthPurple)
+        ) {
+            Icon(Icons.Default.Wifi, contentDescription = null, tint = Color.White)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("SEND LIVE OSC (UDP 8000)", color = Color.White, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold)
         }
 
         Spacer(modifier = Modifier.height(80.dp))

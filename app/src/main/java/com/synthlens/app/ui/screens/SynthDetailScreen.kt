@@ -7,12 +7,17 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.synthlens.app.R
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -55,13 +60,30 @@ fun SynthDetailScreen(
         )
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DarkBackground)
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
+    Box(modifier = Modifier.fillMaxSize().background(DarkBackground)) {
+        val imageRes = when {
+            synth.category.contains("DRUM", ignoreCase = true) -> R.drawable.bg_drum
+            synth.category.contains("MODULAR", ignoreCase = true) -> R.drawable.bg_modular
+            else -> R.drawable.bg_synth
+        }
+        
+        Image(
+            painter = painterResource(id = imageRes),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
+            alpha = 0.5f
+        )
+        
+        // Dark gradient or overlay to ensure text is readable
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.75f)))
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -69,7 +91,7 @@ fun SynthDetailScreen(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, "Back", tint = SynthCyan, modifier = Modifier.size(20.dp))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = SynthCyan, modifier = Modifier.size(20.dp))
                 }
                 Text(
                     "OSC_SCANNER_V1",
@@ -531,6 +553,7 @@ fun SynthDetailScreen(
 
         Spacer(modifier = Modifier.height(80.dp))
     }
+    }
 }
 
 @Composable
@@ -637,7 +660,7 @@ private fun ModRoute(from: String, to: String, color: Color) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(from, color = color, fontSize = 10.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.weight(1f))
-        Icon(Icons.Default.ArrowForward, null, tint = color.copy(alpha = 0.5f), modifier = Modifier.size(12.dp))
+        Icon(Icons.AutoMirrored.Filled.ArrowForward, null, tint = color.copy(alpha = 0.5f), modifier = Modifier.size(12.dp))
         Text(to, color = DarkOnSurface.copy(alpha = 0.7f), fontSize = 10.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier

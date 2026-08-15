@@ -443,7 +443,7 @@ fun AudioAnalysis.toSynthFeatures(): SynthFeatures {
     return SynthFeatures(
         frequency = frequency,
         amplitude = amplitude,
-        spectralCentroid = if (spectrumData.isNotEmpty()) { var ws = 0f; var tm = 0f; for (i in spectrumData.indices) { ws += i.toFloat() * 44100 / 2048 * spectrumData[i]; tm += spectrumData[i] }; if (tm > 0) ws / tm else 0f } else 0f,
+        spectralCentroid = spectralRolloff,
         spectralFlatness = spectralFlatness,
         spectralRolloff = spectralRolloff,
         spectralBandwidth = spectralBandwidth,

@@ -1,116 +1,129 @@
-# SynthLens
+# 🎹 SynthLens - The Ultimate AI Synthesizer Analyzer
 
-**AI-powered synthesizer analyzer for Android.**
+![Android Version](https://img.shields.io/badge/Android-8.0%2B-green.svg)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-purple.svg)
+![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg)
 
-SynthLens listens to audio input and identifies synthesizers, analyzing their oscillators, filters, modulation, and patch settings in real-time.
+**SynthLens** is a revolutionary AI-powered synthesizer analyzer designed for Android. Whether you're trying to recreate a classic sound, learn sound design, or document your hardware synth patches, SynthLens acts as your intelligent assistant. It listens to audio input and instantly identifies synthesizers, meticulously analyzing their oscillators, filters, modulation, and patch settings in real-time.
 
-## Features
+---
 
-- **Real-time Audio Analysis** - Analyze audio from microphone or system input
-- **Synth Detection** - Identify synthesizer models with high confidence
-- **Parameter Extraction** - Detect oscillators, filters, envelopes, LFOs
-- **Patch Database** - Save and recall analyzed patches
-- **Spectrum Analyzer** - Visual frequency analysis
-- **Dark Theme** - Modern synth-rack aesthetic UI
+## 📸 Screenshots & UI
 
-## Screenshots
+Here's a glimpse into the sleek, dark-themed, and modern aesthetic of SynthLens:
 
-*(Add screenshots here)*
+<p align="center">
+  <img src="DOCS/images/analyzer_ui.jpg" width="45%" alt="Real-time Analyzer UI" />
+  &nbsp;&nbsp;
+  <img src="DOCS/images/patch_database_ui.jpg" width="45%" alt="Patch Database UI" />
+</p>
 
-## Installation
+*Left: The real-time Analyzer displaying waveform, spectrum, and detected parameters. Right: The organized Patch Database keeping track of your favorite sounds.*
 
-### From Source
+---
+
+## ✨ Key Features
+
+- 🎧 **Real-time Audio Analysis:** Instantly analyze audio from your device's microphone, system input, or connected audio interfaces.
+- 🤖 **AI-Powered Synth Detection:** Employs advanced on-device Machine Learning (TensorFlow Lite) to identify synthesizer models with incredibly high confidence.
+- 🎛️ **Deep Parameter Extraction:** Automatically detects precise parameters:
+  - **Oscillators:** Waveforms (Sine, Square, Sawtooth, Triangle), pulse width, and tuning.
+  - **Filters:** Cutoff frequency, resonance, and slope (12dB/24dB).
+  - **Envelopes & LFOs:** Attack, Decay, Sustain, Release times and modulation rates.
+- 💾 **Comprehensive Patch Database:** Save, categorize, and recall analyzed patches. Tag them by genre, synth model, or vibe.
+- 📊 **Pro-Grade Spectrum Analyzer:** Visual frequency analysis with logarithmic scaling, real-time waveform monitoring, and peak detection.
+- 🎛️ **DAW & Hardware Integration:** Export patches to popular DAWs or send MIDI/OSC messages to compatible hardware.
+- 🌙 **Modern Aesthetic:** A gorgeous dark-theme UI designed to look like a modern synth rack, built entirely with Jetpack Compose.
+
+---
+
+## 🚀 Getting Started
+
+### Installation
+
+#### From Source
 
 ```bash
 # Clone the repository
 git clone https://github.com/dixi3stdgdl-design/synthlens.git
 
-# Open in Android Studio
-# Build and run on device or emulator
+# Open the project in Android Studio (Hedgehog or newer)
+# Sync Gradle and build the project
 ```
 
-### APK Download
+#### Download APK
 
-Download the latest APK from [Releases](https://github.com/dixi3stdgdl-design/synthlens/releases)
+Download the latest compiled APK directly from our [Releases](https://github.com/dixi3stdgdl-design/synthlens/releases) page.
 
-## Requirements
+### System Requirements
 
-- Android 8.0+ (API 26)
-- Microphone permission for audio input
-- 2GB+ RAM recommended
-
-## Architecture
-
-```
-app/
-├── src/main/java/com/synthlens/app/
-│   ├── MainActivity.kt          # Entry point
-│   ├── engine/                  # Audio engine, FFT, ML classifier
-│   ├── data/                    # Database, entities, repository
-│   ├── viewmodel/               # MVVM view models
-│   ├── ui/
-│   │   ├── screens/             # All 12+ screens
-│   │   ├── components/          # Reusable UI components
-│   │   ├── navigation/          # Navigation routes
-│   │   └── theme/               # Colors, typography, theme
-│   └── ...
-├── src/main/res/
-│   ├── layout/                  # XML layouts
-│   ├── values/                  # Colors, strings, themes
-│   └── drawable/                # Icons and graphics
-└── build.gradle.kts             # Dependencies
-```
-
-## Tech Stack
-
-- **Language:** Kotlin
-- **UI:** Jetpack Compose + XML
-- **Audio:** Android AudioRecord API
-- **ML:** On-device inference for synth detection
-- **Architecture:** MVVM
-
-## Development
-
-### Prerequisites
-
-- Android Studio Hedgehog+
-- JDK 17
-- Android SDK 34
-
-### Build
-
-```bash
-./gradlew assembleDebug
-```
-
-### Run Tests
-
-```bash
-./gradlew test
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Android Audio API documentation
-- Synthesizer parameter analysis research
-- Open source audio processing libraries
-
-## Contact
-
-- **GitHub:** [dixi3stdgdl-design](https://github.com/dixi3stdgdl-design)
+- **OS:** Android 8.0+ (API level 26 or higher)
+- **Permissions:** Microphone access is required for real-time audio input.
+- **Hardware:** 2GB+ RAM recommended for smooth AI inference and UI rendering.
 
 ---
 
-Built with by MiMo Team
+## 🏗️ Architecture & Tech Stack
+
+Built with modern Android development practices to ensure performance and maintainability:
+
+- **Language:** Kotlin 1.9+
+- **UI Framework:** Jetpack Compose (Modern declarative UI) + Material Design 3
+- **Audio Processing:** Android AudioRecord API & custom C++ FFT algorithms via JNI
+- **Machine Learning:** TensorFlow Lite for on-device, low-latency inference
+- **Architecture Pattern:** MVVM (Model-View-ViewModel) with Clean Architecture principles
+- **Asynchronous Operations:** Kotlin Coroutines & Flow
+
+---
+
+## 🛠️ Development & Building
+
+### Prerequisites
+
+- Android Studio Hedgehog (2023.1.1) or newer
+- JDK 17
+- Android SDK 34
+
+### Build Commands
+
+```bash
+# Build a debug APK
+./gradlew assembleDebug
+
+# Run unit and integration tests
+./gradlew test
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! If you're passionate about synths and code, we'd love your help.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-new-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing new feature'`)
+4. Push to the branch (`git push origin feature/amazing-new-feature`)
+5. Open a Pull Request and describe your changes.
+
+---
+
+## 📄 License
+
+This project is open-source and licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- The incredible Android Audio API documentation.
+- Researchers in the field of synthesizer parameter analysis.
+- The open-source community for providing excellent audio processing and ML libraries.
+
+---
+
+<p align="center">
+  <b>Built with ❤️ by the MiMo Team</b><br>
+  <a href="https://github.com/dixi3stdgdl-design">GitHub Profile</a>
+</p>

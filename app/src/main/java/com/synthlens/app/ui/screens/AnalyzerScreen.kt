@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -375,7 +376,7 @@ fun AnalyzerScreen(
                             letterSpacing = 2.sp
                         )
                         Spacer(modifier = Modifier.width(6.dp))
-                        Icon(Icons.Default.ArrowForward, null, tint = SynthCyan.copy(alpha = (0.5f + 0.4f * boost).coerceIn(0f, 1f)), modifier = Modifier.size(if (isBright) 14.dp else 12.dp))
+                        Icon(Icons.AutoMirrored.Filled.ArrowForward, null, tint = SynthCyan.copy(alpha = (0.5f + 0.4f * boost).coerceIn(0f, 1f)), modifier = Modifier.size(if (isBright) 14.dp else 12.dp))
                     }
                 }
             }

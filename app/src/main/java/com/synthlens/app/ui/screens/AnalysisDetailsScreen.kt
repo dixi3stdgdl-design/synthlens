@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -66,7 +67,7 @@ fun AnalysisDetailsScreen(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, "Back", tint = SynthCyan, modifier = Modifier.size(20.dp))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = SynthCyan, modifier = Modifier.size(20.dp))
                 }
                 Text(
                     "OSC_SCANNER_V1",
@@ -360,7 +361,7 @@ private fun ModRoute(label: String, route: String, color: Color) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(label, color = color, fontSize = 10.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.width(40.dp))
-        Icon(Icons.Default.ArrowForward, null, tint = color.copy(alpha = 0.5f), modifier = Modifier.size(10.dp))
+        Icon(Icons.AutoMirrored.Filled.ArrowForward, null, tint = color.copy(alpha = 0.5f), modifier = Modifier.size(10.dp))
         Text(route, color = DarkOnSurface.copy(alpha = 0.7f), fontSize = 9.sp, fontFamily = FontFamily.Monospace)
     }
 }

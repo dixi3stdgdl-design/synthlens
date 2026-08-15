@@ -245,8 +245,26 @@ fun SynthLensApp(audioEngine: AudioEngine) {
                         onNavigateToDAW = { navController.navigate(Screen.DAWIntegration.route) },
                         onNavigateToScanner = { navController.navigate(Screen.Scanner.route) },
                         onNavigateToSettings = { navController.navigate(Screen.Settings.route) },
-                        onNavigateToAchievements = { navController.navigate(Screen.Achievements.route) }
+                        onNavigateToAchievements = { navController.navigate(Screen.Achievements.route) },
+                        onNavigateToBatchProcessing = { navController.navigate(Screen.BatchProcessing.route) },
+                        onNavigateToCloudWorkspace = { navController.navigate(Screen.CloudWorkspace.route) },
+                        onNavigateToHardwareIntegration = { navController.navigate(Screen.HardwareIntegration.route) },
+                        onNavigateToQADashboard = { navController.navigate(Screen.QADashboard.route) }
                     )
+                }
+                composable(Screen.BatchProcessing.route) {
+                    BatchProcessingScreen(
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+                composable(Screen.CloudWorkspace.route) {
+                    CloudWorkspaceScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.HardwareIntegration.route) {
+                    HardwareIntegrationScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.QADashboard.route) {
+                    QADashboardScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.Settings.route) {
                     SettingsScreen()
