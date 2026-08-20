@@ -42,10 +42,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('images/bg-graveyard.jpg');
-    background-size: 100% auto;
-    background-position: 50% 0%;
-    background-repeat: no-repeat;
+    object-fit: cover;
     z-index: -3;
     opacity: 0.9; /* Vibrant when illuminated */
     filter: saturate(1.1) contrast(1.1);

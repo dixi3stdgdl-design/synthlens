@@ -240,6 +240,7 @@ window.addEventListener('scroll', () => {
     
     const bgElement = document.querySelector('.bg-graveyard');
     if (bgElement) {
-        bgElement.style.backgroundPosition = `50% ${scrollPercent}%`;
+        // bgElement.style.backgroundPosition = `50% ${scrollPercent}%`;
+        // Video background doesn't need parallax as it provides its own motion
     }
 });
