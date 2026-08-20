@@ -14,12 +14,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Real-time Visualizer Simulation -->
-    <canvas id="spectrumCanvas"></canvas>
+    <!-- The Synthesizer Graveyard Background -->
+    <div class="bg-graveyard"></div>
+    
+    <!-- The Interactive Mouse Spotlight -->
+    <div class="mouse-spotlight"></div>
 
-    <!-- Global Glow Effects -->
-    <div class="ambient-glow cyan-glow"></div>
-    <div class="ambient-glow magenta-glow"></div>
+    <!-- The Audio Spectrum Canvas (Now restricted to the bottom to avoid clashing) -->
+    <canvas id="spectrumCanvas"></canvas>
 
     <div class="site-wrapper">
         <!-- Header -->
@@ -38,11 +40,11 @@
 
         <!-- Hero Section -->
         <section class="hero">
-            <div class="hero-content fade-in-up delay-1">
-                <div class="hero-badge">THE WORLD'S FIRST SYNTH DETECTOR</div>
-                <h2 class="hero-title">Identify any Synth.<br><span class="highlight-magenta">Instantly.</span></h2>
-                <p class="hero-subtitle">Step into the future of sound design. SynthLens is the only acoustic engine capable of dissecting waveforms, isolating stems, and identifying synthesizer hardware in real-time.</p>
-                <div class="hero-actions">
+            <div class="hero-content">
+                <div class="hero-badge fade-in-up delay-1">THE WORLD'S FIRST SYNTH DETECTOR</div>
+                <h2 class="hero-title fade-in-up delay-2">Identify any Synth.<br><span class="highlight-magenta">Instantly.</span></h2>
+                <p class="hero-subtitle fade-in-up delay-3">Step into the future of sound design. SynthLens is the only acoustic engine capable of dissecting waveforms, isolating stems, and identifying synthesizer hardware in real-time.</p>
+                <div class="hero-actions fade-in-up delay-4">
                     <a href="https://github.com/drbea/SynthLens/releases" class="btn btn-primary glow-btn">Download Now</a>
                     <a href="#library" class="btn btn-secondary">Explore the DB</a>
                 </div>
@@ -51,34 +53,34 @@
 
         <!-- The Largest Library Section -->
         <section id="library" class="library-section section">
-            <div class="section-header fade-in">
+            <div class="section-header fade-in-up delay-1">
                 <h3 class="section-title">The <span class="highlight-amber">Largest</span> Synthesizer Library</h3>
                 <p>An ever-growing database of acoustic signatures, meticulously analyzed and mapped.</p>
             </div>
             
             <div class="bento-grid">
                 <!-- Counter Card -->
-                <div class="bento-card glass-panel col-span-2 row-span-2 flex-center fade-in-up">
+                <div class="bento-card glass-panel col-span-2 row-span-2 flex-center fade-in-up delay-2">
                     <div class="counter-box">
                         <span class="counter-number highlight-cyan" data-target="2450">0</span>
                         <span class="counter-label">Acoustic Signatures</span>
                     </div>
                 </div>
                 
-                <!-- Brand Cards -->
-                <div class="bento-card glass-panel brand-card fade-in-up delay-1">
+                <!-- Brand Cards with cascading delays -->
+                <div class="bento-card glass-panel brand-card fade-in-up delay-3">
                     <div class="brand-name">MOOG</div>
                     <div class="brand-bg moog-bg"></div>
                 </div>
-                <div class="bento-card glass-panel brand-card fade-in-up delay-2">
+                <div class="bento-card glass-panel brand-card fade-in-up delay-4">
                     <div class="brand-name">ROLAND</div>
                     <div class="brand-bg roland-bg"></div>
                 </div>
-                <div class="bento-card glass-panel brand-card fade-in-up delay-1">
+                <div class="bento-card glass-panel brand-card fade-in-up delay-5">
                     <div class="brand-name">KORG</div>
                     <div class="brand-bg korg-bg"></div>
                 </div>
-                <div class="bento-card glass-panel brand-card fade-in-up delay-2">
+                <div class="bento-card glass-panel brand-card fade-in-up delay-6">
                     <div class="brand-name">SEQUENTIAL</div>
                     <div class="brand-bg seq-bg"></div>
                 </div>
@@ -87,11 +89,11 @@
 
         <!-- Multi-Platform Section -->
         <section id="platforms" class="platforms-section section">
-            <div class="platform-container glass-panel fade-in">
+            <div class="platform-container glass-panel fade-in-up delay-1">
                 <div class="platform-text">
-                    <h3 class="section-title">Absolute <span class="highlight-cyan">Omnipresence</span></h3>
-                    <p>Powered by <strong>Kotlin Multiplatform (KMP)</strong>, SynthLens brings desktop-grade DSP analysis to every platform without compromising performance.</p>
-                    <div class="platform-icons">
+                    <h3 class="section-title fade-in-up delay-2">Absolute <span class="highlight-cyan">Omnipresence</span></h3>
+                    <p class="fade-in-up delay-3">Powered by <strong>Kotlin Multiplatform (KMP)</strong>, SynthLens brings desktop-grade DSP analysis to every platform without compromising performance.</p>
+                    <div class="platform-icons fade-in-up delay-4">
                         <div class="p-icon" title="Windows">🪟</div>
                         <div class="p-icon" title="macOS">🍎</div>
                         <div class="p-icon" title="Linux">🐧</div>
@@ -99,15 +101,13 @@
                         <div class="p-icon" title="iOS">📱</div>
                     </div>
                 </div>
-                <div class="platform-visual">
+                <div class="platform-visual fade-in-up delay-5">
                     <div class="device-stack">
-                        <!-- Desktop Mockup -->
-                        <div class="mock-device desktop glass-panel">
+                        <div class="mock-device desktop glass-panel hover-magnetic">
                             <div class="mock-header">macOS / Windows</div>
                             <div class="wave-line"></div>
                         </div>
-                        <!-- Mobile Mockup -->
-                        <div class="mock-device mobile glass-panel">
+                        <div class="mock-device mobile glass-panel hover-magnetic">
                             <div class="mock-header">iOS / Android</div>
                             <div class="wave-line vertical"></div>
                         </div>
@@ -116,24 +116,24 @@
             </div>
         </section>
 
-        <!-- Radiografía del Motor (How it Works) -->
+        <!-- Engine Section -->
         <section id="engine" class="engine-section section">
-            <div class="section-header fade-in">
+            <div class="section-header fade-in-up delay-1">
                 <h3 class="section-title">Under the <span class="highlight-magenta">Hood</span></h3>
                 <p>Pro-Audio Digital Signal Processing meets Machine Learning.</p>
             </div>
             <div class="engine-steps">
-                <div class="step-card glass-panel hover-magnetic fade-in-up delay-1">
+                <div class="step-card glass-panel hover-magnetic fade-in-up delay-2">
                     <div class="step-number">01</div>
                     <h4>Feature Extraction</h4>
                     <p>Ultra-fast Fast Fourier Transform (FFT) combined with MFCC, spectral flatness, and zero-crossing rates to dissect incoming audio buffers.</p>
                 </div>
-                <div class="step-card glass-panel hover-magnetic fade-in-up delay-2">
+                <div class="step-card glass-panel hover-magnetic fade-in-up delay-3">
                     <div class="step-number">02</div>
                     <h4>Stem Separation</h4>
                     <p>Isolating Low, Mid, and High frequency bands to target individual basslines, rhythmic pads, or screaming leads in a mix.</p>
                 </div>
-                <div class="step-card glass-panel hover-magnetic fade-in-up delay-3">
+                <div class="step-card glass-panel hover-magnetic fade-in-up delay-4">
                     <div class="step-number">03</div>
                     <h4>Hybrid Inference</h4>
                     <p>Mathematical heuristics for filter cutoff and resonance merged with TensorFlow Lite ML for unmatched hardware identification accuracy.</p>
@@ -142,7 +142,7 @@
         </section>
 
         <!-- Footer Pro -->
-        <footer class="footer glass-panel">
+        <footer class="footer glass-panel fade-in-up delay-1">
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo">
