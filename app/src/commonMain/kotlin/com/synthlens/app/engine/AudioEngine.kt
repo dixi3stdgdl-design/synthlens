@@ -4,45 +4,19 @@ import kotlinx.coroutines.flow.StateFlow
 
 data class StemSynthProfile(
     val stemName: String,
-    val confidence: Float,
-    val energy: Float,
-    val frequencyRange: String = "",
-    val waveformType: String = "",
-    val peakFrequency: Float = 0f,
     val detectedSynth: String = "",
     val brand: String = "",
+    val category: String = "",
+    val confidence: Float,
+    val waveformType: String = "",
     val filterType: String = "",
+    val frequencyRange: String = "",
+    val peakFrequency: Float = 0f,
+    val harmonics: List<Float> = emptyList(),
+    val thd: Float = 0f,
+    val rmsLevel: Float = 0f,
+    val energy: Float,
     val characteristics: Map<String, String> = emptyMap()
-)
-
-data class HandpanHarmonic(
-    val frequency: Float,
-    val amplitudeRatio: Float,
-    val type: String
-)
-
-data class DetectedHandpanResult(
-    val brand: String = "",
-    val model: String = "",
-    val instrumentName: String = "",
-    val confidence: Float = 0f,
-    val detectedNote: String = "",
-    val detectedOctave: Int = 0,
-    val centsOffset: Float = 0f,
-    val fundamentalHz: Float = 0f,
-    val harmonicCount: Int = 0,
-    val harmonics: List<HandpanHarmonic> = emptyList(),
-    val material: String = "",
-    val scale: List<String> = emptyList(),
-    val tuningSystem: String = "",
-    val sizeCategory: String = "",
-    val attackType: String = "",
-    val sustainRating: Float = 0f,
-    val overtoneRatio: Float = 0f,
-    val inharmonicity: Float = 0f,
-    val brightnessIndex: Float = 0f,
-    val warmthIndex: Float = 0f,
-    val spectralProfile: List<Float> = emptyList()
 )
 
 data class StemAnalysis(
@@ -81,7 +55,7 @@ data class AudioAnalysis(
     val detectedSong: String? = null,
     val detectedArtist: String? = null,
     val detectedSynth: DetectedSynthResult? = null,
-    val detectedHandpan: DetectedHandpanResult? = null,
+
     val stemAnalysis: StemAnalysis? = null,
     val stemProfiles: List<StemSynthProfile> = emptyList(),
     val dominantStemName: String? = null,

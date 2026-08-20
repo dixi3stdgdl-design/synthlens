@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.synthlens.app.engine.*
-import io.ktor.client.*
 import com.synthlens.app.ui.components.*
 import com.synthlens.app.ui.theme.*
 import androidx.compose.ui.geometry.Size
@@ -43,10 +42,6 @@ fun AnalyzerScreen(
     audioEngine: AudioEngine,
     onNavigateToDetails: () -> Unit
 ) {
-    val client = remember { HttpClient() }
-    val recognizer = remember { AuddSongRecognizer(client) }
-    val detectionManager = remember { ParallelDetectionManager(recognizer) }
-    val detectionResult by detectionManager.result.collectAsState()
     val isRecording by audioEngine.isRecording.collectAsState()
     val analysis by audioEngine.analysis.collectAsState()
     val isBright = LocalIsBright.current
@@ -56,7 +51,7 @@ fun AnalyzerScreen(
     val hasPermission = true
 
     val detected = analysis.detectedSynth
-    val detectedHandpan = analysis.detectedHandpan
+
     val stemColors = listOf(SynthPurple, SynthMagenta, SynthCyan, SynthGreen)
 
     val infiniteTransition = rememberInfiniteTransition()
@@ -374,9 +369,7 @@ fun AnalyzerScreen(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        if (detectedHandpan != null) {
-            HandpanInfoPanel(handpan = detectedHandpan)
-        }
+
 
         Spacer(modifier = Modifier.height(6.dp))
 
@@ -399,11 +392,8 @@ fun AnalyzerScreen(
                     onClick = {
                         if (isRecording) {
                             audioEngine.stopRecording()
-                            detectionManager.reset()
                         } else {
                             audioEngine.startRecording()
-                            // Simulate sending the recorded PCM buffer
-                            detectionManager.startDetection(ByteArray(0))
                         }
                     }
                 )
@@ -432,102 +422,7 @@ fun AnalyzerScreen(
 
         Spacer(modifier = Modifier.height(80.dp))
     }
-    
-    // Detection Overlay
-    if (detectionResult.state != DetectionState.IDLE) {
-        DetectionOverlay(
-            result = detectionResult,
-            onClose = { detectionManager.reset() },
-            onViewDetails = onNavigateToDetails
-        )
-    }
-    }
 }
-
-@Composable
-private fun DetectionOverlay(
-    result: ParallelDetectionResult,
-    onClose: () -> Unit,
-    onViewDetails: () -> Unit
-) {
-    val isBright = LocalIsBright.current
-    val boost = if (isBright) 2.5f else 1f
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.85f))
-            .clickable(enabled = false) {}, // Block clicks
-        contentAlignment = Alignment.Center
-    ) {
-        SynthPanel(
-            modifier = Modifier.fillMaxWidth(0.9f),
-            label = "DETECTION ENGINE",
-            glowColor = SynthCyan,
-            glowIntensity = 0.5f
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                when (result.state) {
-                    DetectionState.IDENTIFYING_SONG -> {
-                        CircularProgressIndicator(color = SynthCyan)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            "FINGERPRINTING AUDIO...",
-                            color = SynthCyan,
-                            fontFamily = FontFamily.Monospace,
-                            fontSize = 14.sp
-                        )
-                    }
-                    DetectionState.SONG_FOUND_ANALYZING_STEMS -> {
-                        result.song?.let { song ->
-                            Text("TRACK IDENTIFIED", color = SynthGreen, fontFamily = FontFamily.Monospace, fontSize = 10.sp)
-                            Text(song.title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 22.sp, fontFamily = FontFamily.Monospace)
-                            Text(song.artist, color = SynthCyan, fontSize = 16.sp, fontFamily = FontFamily.Monospace)
-                        }
-                        Spacer(modifier = Modifier.height(24.dp))
-                        CircularProgressIndicator(color = SynthMagenta, modifier = Modifier.size(24.dp))
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            "ANALYZING SYNTH STEMS...",
-                            color = SynthMagenta,
-                            fontFamily = FontFamily.Monospace,
-                            fontSize = 12.sp
-                        )
-                    }
-                    DetectionState.COMPLETE -> {
-                        result.song?.let { song ->
-                            Text(song.title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 22.sp, fontFamily = FontFamily.Monospace)
-                            Text(song.artist, color = SynthCyan, fontSize = 16.sp, fontFamily = FontFamily.Monospace)
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-                        
-                        Text("SYNTHS DETECTED:", color = SynthMagenta, fontFamily = FontFamily.Monospace, fontSize = 10.sp)
-                        result.stemAnalysis?.stems?.forEach { stem ->
-                            Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text("${stem.stemName}:", color = SynthPurple, fontSize = 12.sp, fontFamily = FontFamily.Monospace)
-                                Text("${stem.brand} ${stem.detectedSynth}", color = SynthAmber, fontSize = 12.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
-                            }
-                        }
-                        
-                        Spacer(modifier = Modifier.height(24.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            SynthButton("CLOSE", "", false, SynthRed, Modifier.weight(1f)) { onClose() }
-                            SynthButton("DETAILS", "", false, SynthGreen, Modifier.weight(1f)) { onViewDetails() }
-                        }
-                    }
-                    DetectionState.ERROR -> {
-                        Text("DETECTION FAILED", color = SynthRed, fontFamily = FontFamily.Monospace, fontSize = 16.sp)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        SynthButton("CLOSE", "", false, SynthRed, Modifier.fillMaxWidth()) { onClose() }
-                    }
-                    else -> {}
-                }
-            }
-        }
-    }
 }
 
 @Composable

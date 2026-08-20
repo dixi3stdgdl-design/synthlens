@@ -224,10 +224,7 @@ fun SynthLensApp(audioEngine: AudioEngine) {
                     DAWIntegrationScreen(audioEngine = audioEngine)
                 }
                 composable(Screen.Scanner.route) {
-                    CameraScannerScreen(
-                        audioEngine = audioEngine,
-                        onSynthDetected = { }
-                    )
+                    CameraScannerScreen()
                 }
                 composable(Screen.Spectral.route) {
                     SpectralScreen(audioEngine = audioEngine)

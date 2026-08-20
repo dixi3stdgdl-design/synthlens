@@ -14,7 +14,7 @@ data class Stem(
     val energy: Float
 )
 
-data class StemAnalysis(
+data class RawStemAnalysis(
     val stems: List<Stem>,
     val dominantStem: Stem?,
     val mixtureSpectrum: FloatArray,
@@ -41,12 +41,12 @@ class StemSeparator {
     private var stftFrameIndex = 0
     private val spectralHistory = mutableListOf<FloatArray>()
 
-    fun processBuffer(buffer: ShortArray, length: Int): StemAnalysis {
+    fun processBuffer(buffer: ShortArray, length: Int): RawStemAnalysis {
         val floatBuffer = FloatArray(length) { buffer[it].toFloat() / Short.MAX_VALUE }
         return processFloatBuffer(floatBuffer, length)
     }
 
-    fun processFloatBuffer(buffer: FloatArray, length: Int): StemAnalysis {
+    fun processFloatBuffer(buffer: FloatArray, length: Int): RawStemAnalysis {
         val windowed = applyHammingWindow(buffer, length)
         val stftFrame = computeSTFT(windowed, length)
 
@@ -70,7 +70,7 @@ class StemSeparator {
             if (maxEntropy > 0) 1f - (entropy / maxEntropy) else 0.5f
         } else 0f
 
-        return StemAnalysis(
+        return RawStemAnalysis(
             stems = stems,
             dominantStem = dominant,
             mixtureSpectrum = mixtureSpectrum,

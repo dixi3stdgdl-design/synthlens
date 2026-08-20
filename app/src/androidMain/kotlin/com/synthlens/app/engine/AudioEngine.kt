@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlin.math.*
 
 // ================================================================
@@ -43,8 +44,22 @@ fun SynthInfo.toDetectedSynthResult(confidence: Float): DetectedSynthResult {
         daw = "Hardware",
         effects = if (purchaseInfo.officialUrl.isNotEmpty())
             "Info: ${purchaseInfo.officialUrl}" else "",
-        pattern = category.name.replace("_", " "),
-        catalogInfo = this
+        pattern = category.name.replace("_", " ")
+    )
+}
+
+fun DetectedSynthResult.toStemSynthProfile(): StemSynthProfile {
+    return StemSynthProfile(
+        stemName = this.name,
+        detectedSynth = this.name,
+        brand = this.brand,
+        category = this.category.replace("_", " "),
+        confidence = this.confidence,
+        energy = this.confidence,
+        characteristics = mapOf(
+            "engine" to this.modulation,
+            "effects" to this.effects
+        )
     )
 }
 
@@ -52,21 +67,24 @@ fun SynthInfo.toDetectedSynthResult(confidence: Float): DetectedSynthResult {
 //  AUDIO ENGINE
 // ================================================================
 
-class AndroidAudioEngine(private val context: Context) : AudioEngine {
+class AndroidAudioEngine(
+    private val context: Context,
+    private val scopeConfig: CoroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+) : AudioEngine {
 
     private var audioRecord: AudioRecord? = null
     private var recordingJob: Job? = null
-    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+    private val scope = scopeConfig
     private val stemSeparator = StemSeparator()
     private val stemAnalyzer = StemAnalyzer()
-    private val mlClassifier = SynthMLClassifier(context)
-    private val handpanDetector = HandpanDetector()
+    private val synthDetector = SynthLensDetector(context)
+
 
     private val _analysis = MutableStateFlow(AudioAnalysis())
-    val analysis: StateFlow<AudioAnalysis> = _analysis
+    override val analysis: StateFlow<AudioAnalysis> = _analysis.asStateFlow()
 
     private val _isRecording = MutableStateFlow(false)
-    val isRecording: StateFlow<Boolean> = _isRecording
+    override val isRecording: StateFlow<Boolean> = _isRecording.asStateFlow()
 
     companion object {
         const val SAMPLE_RATE = 44100
@@ -85,7 +103,7 @@ class AndroidAudioEngine(private val context: Context) : AudioEngine {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun startRecording() {
+    override fun startRecording() {
         if (!hasPermission()) return
         if (_isRecording.value) return
 
@@ -184,44 +202,19 @@ class AndroidAudioEngine(private val context: Context) : AudioEngine {
                                         && hasTonalContent(spectrum, frequency)
 
                                 val detected = if (currentPhase == 2 && hasRealSignal) {
-                                    // Heurístico
-                                    val heuristicResult = analyzeSynthSignature(
-                                        frequency, waveformType, harmonics,
-                                        amplitude, flatness, rolloff, bandwidth
-                                    )
-
-                                    // ML
-                                    val tempAnalysis = AudioAnalysis(
-                                        frequency = frequency,
-                                        amplitude = amplitude,
-                                        waveformType = waveformType,
-                                        harmonics = harmonics,
-                                        spectralFlatness = flatness,
-                                        spectralRolloff = rolloff,
-                                        spectralBandwidth = bandwidth,
-                                        harmonicToNoiseRatio = hnr,
-                                        thd = thd,
-                                        octaves = frequencyToOctave(frequency)
-                                    )
-                                    val features = tempAnalysis.toSynthFeatures()
-                                    val mlResult = mlClassifier.classify(features)
-
-                                    if (mlResult != null &&
-                                        mlResult.confidence > (heuristicResult?.confidence ?: 0f)
-                                    ) {
-                                        // ── ML: buscar en catálogo ──
-                                        val catalogMatch =
-                                            SynthCatalogDB.searchByName(mlResult.synthName)
-                                                .firstOrNull()
+                                    val detectionResult = synthDetector.detect(normalized)
+                                    val topMatch = detectionResult.topMatch
+                                    if (topMatch != null && topMatch.conf > 0.4f) {
+                                        val catalogMatch = SynthCatalogDB.searchByName(topMatch.name).firstOrNull()
                                         if (catalogMatch != null) {
-                                            catalogMatch.toDetectedSynthResult(mlResult.confidence)
+                                            catalogMatch.toDetectedSynthResult(topMatch.conf)
                                         } else {
                                             DetectedSynthResult(
-                                                name = mlResult.synthName,
-                                                brand = mlResult.brand,
-                                                category = mlResult.category,
-                                                confidence = mlResult.confidence,
-                                                frequencySignature = "ml_${mlResult.modelUsed}",
+                                                name = topMatch.name,
+                                                brand = topMatch.brand,
+                                                category = topMatch.cat,
+                                                confidence = topMatch.conf,
+                                                frequencySignature = "${detectionResult.method}_${detectionResult.level}",
                                                 waveformType = waveformType,
                                                 filterType = "",
                                                 oscillators = "",
@@ -231,9 +224,7 @@ class AndroidAudioEngine(private val context: Context) : AudioEngine {
                                                 pattern = ""
                                             )
                                         }
-                                    } else {
-                                        heuristicResult
-                                    }
+                                    } else null
                                 } else null
 
                                 // Stems
@@ -244,27 +235,13 @@ class AndroidAudioEngine(private val context: Context) : AudioEngine {
                                         } catch (_: Exception) { null }
                                     } else null
 
-                                val stemProfiles = stemAnalysis?.stems?.map { stem ->
+                                val stemProfiles = stemAnalysis?.stems?.mapIndexed { index, stem ->
                                     stemAnalyzer.analyzeStem(stem, spectrum)
                                 } ?: emptyList()
 
                                 val dominantStem = stemAnalysis?.dominantStem?.name
 
-                                // Handpan
-                                val handpanResult = if (amplitude > 0.015f) {
-                                    handpanDetector.detect(
-                                        frequency = frequency,
-                                        amplitude = amplitude,
-                                        harmonics = harmonics,
-                                        spectrum = spectrum,
-                                        waveformType = waveformType,
-                                        spectralFlatness = flatness,
-                                        spectralRolloff = rolloff,
-                                        spectralBandwidth = bandwidth,
-                                        hnr = hnr,
-                                        thd = thd
-                                    )
-                                } else null
+
 
                                 // ── FIX: cierre correcto de AudioAnalysis ──
                                 _analysis.value = AudioAnalysis(
@@ -283,8 +260,11 @@ class AndroidAudioEngine(private val context: Context) : AudioEngine {
                                     detectedSong = currentSong,
                                     detectedArtist = currentArtist,
                                     detectedSynth = detected,
-                                    detectedHandpan = handpanResult,
-                                    stemAnalysis = stemAnalysis,
+
+                                    stemAnalysis = StemAnalysis(
+                                        stems = stemProfiles,
+                                        separationConfidence = stemAnalysis?.separationConfidence ?: 0f
+                                    ),
                                     stemProfiles = stemProfiles,
                                     dominantStemName = dominantStem,
                                     spectralFlatness = flatness,
@@ -306,7 +286,7 @@ class AndroidAudioEngine(private val context: Context) : AudioEngine {
         }
     }
 
-    fun stopRecording() {
+    override fun stopRecording() {
         _isRecording.value = false
         recordingJob?.cancel()
         recordingJob = null
@@ -318,6 +298,19 @@ class AndroidAudioEngine(private val context: Context) : AudioEngine {
         _analysis.value = AudioAnalysis()
         // FIX: eliminados oscillatorDetector.reset() y mlAudioBuffer.clear()
         // que no existían en esta clase
+    }
+
+    override fun toggleRecording() {
+        if (_isRecording.value) {
+            stopRecording()
+        } else {
+            startRecording()
+        }
+    }
+
+    override fun destroy() {
+        stopRecording()
+        synthDetector.close()
     }
 
     // ================================================================

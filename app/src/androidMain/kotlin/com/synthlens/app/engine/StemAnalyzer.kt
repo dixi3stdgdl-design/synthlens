@@ -2,22 +2,6 @@ package com.synthlens.app.engine
 
 import kotlin.math.*
 
-data class StemSynthProfile(
-    val stemName: String,
-    val detectedSynth: String,
-    val brand: String,
-    val category: String,
-    val confidence: Float,
-    val waveformType: String,
-    val filterType: String,
-    val frequencyRange: String,
-    val peakFrequency: Float,
-    val harmonics: List<Float>,
-    val thd: Float,
-    val rmsLevel: Float,
-    val energy: Float,
-    val characteristics: Map<String, String>
-)
 
 class StemAnalyzer {
 

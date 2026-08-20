@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class SynthRepository(private val context: Context) {
+class SynthRepository(private val context: Context) : ISynthRepository {
 
     private val database = SynthDatabase.getInstance(context)
     private val detectedDao = database.detectedSynthDao()
@@ -25,34 +25,34 @@ class SynthRepository(private val context: Context) {
     private val achievementDao = database.achievementDao()
     private val scope = CoroutineScope(Dispatchers.IO)
 
-    val allSynths: Flow<List<SynthLibraryItem>> = libraryDao.getAllSynths().map { entities ->
+    override val allSynths: Flow<List<SynthLibraryItem>> = libraryDao.getAllSynths().map { entities ->
         entities.map { it.toDomain() }
     }
 
-    val detectedSynths: Flow<List<DetectedSynth>> = detectedDao.getAllDetected().map { entities ->
+    override val detectedSynths: Flow<List<DetectedSynth>> = detectedDao.getAllDetected().map { entities ->
         entities.map { it.toDomain() }
     }
 
-    val allHistory: Flow<List<DetectionHistory>> = historyDao.getAllHistory().map { entities ->
+    override val allHistory: Flow<List<DetectionHistory>> = historyDao.getAllHistory().map { entities ->
         entities.map { it.toDomain() }
     }
 
-    val favoriteHistory: Flow<List<DetectionHistory>> = historyDao.getFavorites().map { entities ->
+    override val favoriteHistory: Flow<List<DetectionHistory>> = historyDao.getFavorites().map { entities ->
         entities.map { it.toDomain() }
     }
 
-    val allRecordings: Flow<List<AudioRecording>> = recordingDao.getAllRecordings().map { entities ->
+    override val allRecordings: Flow<List<AudioRecording>> = recordingDao.getAllRecordings().map { entities ->
         entities.map { it.toDomain() }
     }
 
-    val allComparisons: Flow<List<ABComparison>> = abDao.getAllComparisons().map { entities ->
+    override val allComparisons: Flow<List<ABComparison>> = abDao.getAllComparisons().map { entities ->
         entities.map { it.toDomain() }
     }
 
-    val detectedCount: StateFlow<Int> = libraryDao.getDetectedCountFlow()
+    override val detectedCount: StateFlow<Int> = libraryDao.getDetectedCountFlow()
         .stateIn(scope, SharingStarted.WhileSubscribed(5000), 0)
 
-    val totalCount: StateFlow<Int> = libraryDao.getCountFlow()
+    override val totalCount: StateFlow<Int> = libraryDao.getCountFlow()
         .stateIn(scope, SharingStarted.WhileSubscribed(5000), 0)
 
     private val achievementRepository = AchievementRepository(achievementDao)
@@ -72,86 +72,86 @@ class SynthRepository(private val context: Context) {
         achievementRepository.seedAchievements()
     }
 
-    fun addDetectedSynth(synth: DetectedSynth) {
+    override fun addDetectedSynth(synth: DetectedSynth) {
         scope.launch {
             detectedDao.insert(synth.toEntity())
             libraryDao.markAsDetected(synth.brand, synth.name)
         }
     }
 
-    fun addDetectionHistory(history: DetectionHistory) {
+    override fun addDetectionHistory(history: DetectionHistory) {
         scope.launch {
             historyDao.insert(history.toEntity())
         }
     }
 
-    fun toggleHistoryFavorite(id: Long, isFavorite: Boolean) {
+    override fun toggleHistoryFavorite(id: Long, isFavorite: Boolean) {
         scope.launch {
             historyDao.setFavorite(id, isFavorite)
         }
     }
 
-    fun deleteHistoryEntry(entry: DetectionHistory) {
+    override fun deleteHistoryEntry(entry: DetectionHistory) {
         scope.launch {
             historyDao.delete(entry.toEntity())
         }
     }
 
-    fun searchHistory(query: String): Flow<List<DetectionHistory>> {
+    override fun searchHistory(query: String): Flow<List<DetectionHistory>> {
         return historyDao.searchHistory(query).map { entities ->
             entities.map { it.toDomain() }
         }
     }
 
-    fun addRecording(recording: AudioRecording) {
+    override fun addRecording(recording: AudioRecording) {
         scope.launch {
             recordingDao.insert(recording.toEntity())
         }
     }
 
-    fun deleteRecording(id: Long) {
+    override fun deleteRecording(id: Long) {
         scope.launch {
             recordingDao.deleteById(id)
         }
     }
 
-    fun addComparison(comparison: ABComparison) {
+    override fun addComparison(comparison: ABComparison) {
         scope.launch {
             abDao.insert(comparison.toEntity())
         }
     }
 
-    fun deleteComparison(comparison: ABComparison) {
+    override fun deleteComparison(comparison: ABComparison) {
         scope.launch {
             abDao.delete(comparison.toEntity())
         }
     }
 
-    fun markAsDetected(brand: String, name: String) {
+    override fun markAsDetected(brand: String, name: String) {
         scope.launch {
             libraryDao.markAsDetected(brand, name)
         }
     }
 
-    fun getSynthsByBrand(brand: String): Flow<List<SynthLibraryItem>> {
+    override fun getSynthsByBrand(brand: String): Flow<List<SynthLibraryItem>> {
         return libraryDao.getSynthsByBrand(brand).map { entities ->
             entities.map { it.toDomain() }
         }
     }
 
-    fun searchSynths(query: String): Flow<List<SynthLibraryItem>> {
+    override fun searchSynths(query: String): Flow<List<SynthLibraryItem>> {
         return libraryDao.searchSynths(query).map { entities ->
             entities.map { it.toDomain() }
         }
     }
 
-    fun getDetectedSynthItems(): Flow<List<SynthLibraryItem>> {
+    override fun getDetectedSynthItems(): Flow<List<SynthLibraryItem>> {
         return libraryDao.getDetectedSynths().map { entities ->
             entities.map { it.toDomain() }
         }
     }
 
-    fun getAllBrands(): Flow<List<String>> {
+    override fun getAllBrands(): Flow<List<String>> {
         return libraryDao.getAllBrands()
     }
 
@@ -172,13 +172,30 @@ class SynthRepository(private val context: Context) {
     }
 
     // Achievement methods
-    fun getAllAchievements() = achievementRepository.getAllAchievements()
+    override fun getAllAchievements(): Flow<List<com.synthlens.app.data.AchievementEntity>> {
+        return achievementRepository.getAllAchievements().map { entities ->
+            entities.map { entity ->
+                com.synthlens.app.data.AchievementEntity(
+                    id = entity.id,
+                    name = entity.name,
+                    description = entity.description,
+                    isUnlocked = entity.isUnlocked,
+                    rarity = entity.rarity,
+                    progress = entity.progress,
+                    target = entity.target,
+                    iconEmoji = entity.iconEmoji,
+                    unlockedAt = entity.unlockedAt ?: 0L,
+                    category = entity.category
+                )
+            }
+        }
+    }
 
     fun getUnlockedAchievements() = achievementRepository.getUnlockedAchievements()
 
     fun getAchievementsByCategory(category: String) = achievementRepository.getAchievementsByCategory(category)
 
-    suspend fun updateAchievementProgress(id: String, progress: Int) {
+    override suspend fun updateAchievementProgress(id: String, progress: Int) {
         achievementRepository.updateProgress(id, progress)
     }
 
