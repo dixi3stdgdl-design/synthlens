@@ -35,7 +35,7 @@ body {
     --mouse-y: 50vh;
 }
 
-/* 1. Synth Graveyard Background */
+/* 1. Synth Graveyard Background (True Flashlight Effect) */
 .bg-graveyard {
     position: fixed;
     top: 0;
@@ -47,11 +47,22 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     z-index: -3;
-    opacity: 0.25;
-    filter: saturate(0.5) contrast(1.2);
+    opacity: 0.9; /* Vibrant when illuminated */
+    filter: saturate(1.1) contrast(1.1);
+    /* This mask hides the image everywhere EXCEPT near the mouse */
+    -webkit-mask-image: radial-gradient(
+        circle 500px at var(--mouse-x) var(--mouse-y), 
+        black 0%, 
+        transparent 80%
+    );
+    mask-image: radial-gradient(
+        circle 500px at var(--mouse-x) var(--mouse-y), 
+        black 0%, 
+        transparent 80%
+    );
 }
 
-/* 2. Interactive Mouse Spotlight */
+/* 2. Interactive Mouse Spotlight (Subtle cyan glow) */
 .mouse-spotlight {
     position: fixed;
     top: 0;
@@ -60,11 +71,10 @@ body {
     height: 100vh;
     z-index: -2;
     pointer-events: none;
-    /* Create a radial spotlight that follows the mouse */
     background: radial-gradient(
-        circle 600px at var(--mouse-x) var(--mouse-y), 
-        rgba(0, 240, 255, 0.15), 
-        transparent 60%
+        circle 500px at var(--mouse-x) var(--mouse-y), 
+        rgba(0, 240, 255, 0.05), 
+        transparent 80%
     );
     transition: background 0.1s ease;
 }
