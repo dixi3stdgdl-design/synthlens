@@ -248,6 +248,20 @@ h1, h2, h3, h4, .logo { font-family: var(--font-heading); }
 .footer-links-col a:hover { color: var(--synth-cyan); transform: translateX(5px); }
 .footer-bottom { padding-top: 2rem; border-top: var(--glass-border); color: rgba(255,255,255,0.3); font-size: 0.9rem; text-align: center; }
 
+/* Pricing SaaS Section */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+.pricing-card { padding: 3rem 2.5rem; display: flex; flex-direction: column; background: var(--bg-card); position: relative; border-radius: 30px; }
+.pricing-card.popular { border: 1px solid var(--synth-cyan); box-shadow: 0 10px 40px rgba(0, 240, 255, 0.15); transform: translateY(-15px); }
+.pricing-card.popular:hover { transform: translateY(-20px) scale(1.02); }
+.popular-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--synth-cyan); color: var(--bg-dark); padding: 0.4rem 1.2rem; border-radius: 20px; font-weight: 800; font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 1px; }
+.pricing-header { margin-bottom: 2rem; text-align: center; }
+.pricing-header h4 { font-size: 1.5rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 2px; }
+.pricing-header .price { font-size: 3.5rem; font-family: var(--font-heading); font-weight: 900; color: #fff; line-height: 1; }
+.pricing-header .price span { font-size: 1.2rem; color: var(--text-secondary); font-weight: 400; }
+.pricing-features { list-style: none; margin-bottom: 3rem; flex-grow: 1; }
+.pricing-features li { margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; font-size: 1.05rem; }
+.w-100 { width: 100%; text-align: center; display: block; }
+
 /* V3 Cascading Animations */
 .fade-in { opacity: 0; transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
 .fade-in.visible { opacity: 1; }
