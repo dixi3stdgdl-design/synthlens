@@ -222,3 +222,24 @@ document.addEventListener('mousedown', function (e) {
         ripple.remove();
     }, 600);
 });
+
+// 7. Parallax Scrolling for Vertical Panorama
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    // Calculate the maximum scrollable distance of the document
+    const maxScroll = Math.max(
+        document.body.scrollHeight, 
+        document.documentElement.scrollHeight
+    ) - window.innerHeight;
+    
+    // Safety check to avoid division by zero
+    if (maxScroll <= 0) return;
+    
+    // Map scroll percentage to background position Y (0% at top, 100% at bottom)
+    const scrollPercent = (scrollY / maxScroll) * 100;
+    
+    const bgElement = document.querySelector('.bg-graveyard');
+    if (bgElement) {
+        bgElement.style.backgroundPosition = `50% ${scrollPercent}%`;
+    }
+});
