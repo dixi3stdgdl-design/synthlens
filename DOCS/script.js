@@ -201,3 +201,24 @@ function animate() {
 }
 
 animate();
+
+// 6. Global Click Ripple Effect
+document.addEventListener('mousedown', function (e) {
+    const ripple = document.createElement('div');
+    ripple.classList.add('ripple');
+    
+    // Size of the ripple
+    const size = 150;
+    ripple.style.width = ripple.style.height = `${size}px`;
+    
+    // Position fixed relative to viewport
+    ripple.style.left = `${e.clientX - size / 2}px`;
+    ripple.style.top = `${e.clientY - size / 2}px`;
+    
+    document.body.appendChild(ripple);
+    
+    // Clean up after animation completes
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
+});
