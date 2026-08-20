@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SynthLens - AI-Powered Synthesizer Analyzer. Identify any synth instantly with Real-Time DSP and Machine Learning.">
+    <title>SynthLens | AI-Powered Synthesizer Analyzer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Canvas for Real-time Visualizer Simulation -->
+    <canvas id="spectrumCanvas"></canvas>
+
+    <div class="site-wrapper">
+        <!-- Header -->
+        <header class="header glass-panel">
+            <div class="logo">
+                <span class="logo-icon">🎧</span>
+                <h1>Synth<span class="highlight-cyan">Lens</span></h1>
+            </div>
+            <nav class="nav">
+                <a href="#features">Features</a>
+                <a href="#architecture">Architecture</a>
+                <a href="https://github.com/drbea/SynthLens" target="_blank" class="btn btn-outline">View on GitHub</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content fade-in-up">
+                <h2 class="hero-title">Identify any Synth.<br><span class="highlight-magenta">Instantly.</span></h2>
+                <p class="hero-subtitle">The ultimate AI-powered synthesizer analyzer for Android. Listen, detect, and analyze waveforms, filters, and oscillators in real-time with hardcore DSP.</p>
+                <div class="hero-actions">
+                    <a href="https://github.com/drbea/SynthLens/releases" class="btn btn-primary">Download APK</a>
+                    <a href="#features" class="btn btn-secondary">Explore Features</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section section">
+            <div class="section-header fade-in">
+                <h3 class="section-title">Core <span class="highlight-amber">Technology</span></h3>
+                <p>Built with absolute precision for audio engineers and synth enthusiasts.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card glass-panel fade-in-up delay-1">
+                    <div class="feature-icon cyan-glow">〰️</div>
+                    <h4>Real-Time DSP</h4>
+                    <p>Advanced Fast Fourier Transform (FFT) combined with Mel-frequency cepstral coefficients (MFCC) to dissect waveforms frame by frame.</p>
+                </div>
+                <div class="feature-card glass-panel fade-in-up delay-2">
+                    <div class="feature-icon magenta-glow">🧠</div>
+                    <h4>Hybrid Inference Engine</h4>
+                    <p>Fusing mathematical heuristics for filter cutoff & resonance with TensorFlow Lite Machine Learning for absolute accuracy.</p>
+                </div>
+                <div class="feature-card glass-panel fade-in-up delay-3">
+                    <div class="feature-icon amber-glow">🎛️</div>
+                    <h4>Stem Separation</h4>
+                    <p>Isolates Low, Mid, and High frequency bands to independently identify basslines, pads, and lead synthesizers from a mixed track.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture / Showcase -->
+        <section id="architecture" class="architecture-section section">
+            <div class="architecture-container glass-panel fade-in">
+                <div class="architecture-text">
+                    <h3 class="section-title">Kotlin Multiplatform</h3>
+                    <p>SynthLens is built on the bleeding edge of Android development.</p>
+                    <ul class="tech-list">
+                        <li><strong>100% Kotlin KMP</strong> shared logic</li>
+                        <li><strong>Jetpack Compose</strong> reactive UI</li>
+                        <li><strong>Coroutines & Flows</strong> for real-time audio buffering</li>
+                        <li><strong>Room Database</strong> for synth signatures</li>
+                    </ul>
+                </div>
+                <div class="architecture-visual">
+                    <div class="mock-device">
+                        <div class="mock-screen">
+                            <div class="mock-header">DETECTION ENGINE</div>
+                            <div class="mock-graph">
+                                <div class="bar" style="height: 40%"></div>
+                                <div class="bar" style="height: 80%"></div>
+                                <div class="bar" style="height: 60%"></div>
+                                <div class="bar" style="height: 100%"></div>
+                                <div class="bar" style="height: 50%"></div>
+                                <div class="bar" style="height: 70%"></div>
+                                <div class="bar" style="height: 30%"></div>
+                            </div>
+                            <div class="mock-text">
+                                <span class="lbl">Detected:</span> <span class="val highlight-cyan">Moog Sub 37</span>
+                            </div>
+                            <div class="mock-text">
+                                <span class="lbl">Confidence:</span> <span class="val highlight-green">98.5%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer glass-panel">
+            <div class="footer-content">
+                <div class="logo">
+                    <span class="logo-icon">🎧</span>
+                    <h2>Synth<span class="highlight-cyan">Lens</span></h2>
+                </div>
+                <p>Open Source & Built for Sound Designers.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/drbea/SynthLens">GitHub Repository</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 SynthLens Project. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
