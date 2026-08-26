@@ -1,0 +1,50 @@
+                            <div class="mock-ui-container analyzer-mobile">
+                                <div class="analyzer-header">
+                                    <div class="led-group">
+                                        <div class="led"><div class="led-dot active green"></div>PWR</div>
+                                        <div class="led"><div class="led-dot active red"></div>REC</div>
+                                        <div class="led"><div class="led-dot active cyan"></div>SIG</div>
+                                    </div>
+                                    <div class="analyzer-title">SYNTHLENS</div>
+                                </div>
+                                <div class="synth-panel">
+                                    <div class="synth-panel-header">OSCILLATOR SCOPE</div>
+                                    <div class="led-group" style="justify-content: space-between;">
+                                        <div class="led"><div class="led-dot active cyan"></div>WAVE</div>
+                                        <div class="led"><div class="led-dot active amber"></div>FREQ</div>
+                                        <div class="led"><div class="led-dot active magenta"></div>HARM</div>
+                                    </div>
+                                    <div class="scope-display">
+                                        <div class="scope-wave"></div>
+                                    </div>
+                                    <div class="knob-row">
+                                        <div class="synth-knob"><div class="knob-circle cyan"><div class="knob-indicator"></div></div><div class="knob-label">LEVEL</div></div>
+                                        <div class="synth-knob"><div class="knob-circle amber"><div class="knob-indicator"></div></div><div class="knob-label">FREQ</div></div>
+                                        <div class="synth-knob"><div class="knob-circle magenta"><div class="knob-indicator"></div></div><div class="knob-label">THD</div></div>
+                                        <div class="synth-knob"><div class="knob-circle green"><div class="knob-indicator"></div></div><div class="knob-label">FLAT</div></div>
+                                    </div>
+                                </div>
+                                <div class="synth-panel detection-output">
+                                    <div class="synth-panel-header" style="color: #39FF14;">DETECTION OUTPUT</div>
+                                    <div class="detection-header">
+                                        <div class="led-group" style="margin-bottom: 4px;">
+                                            <div class="led"><div class="led-dot active green"></div>LOCK</div>
+                                            <div style="margin-left: 4px;">
+                                                <div class="detected-brand">ROLAND JUNO-106</div>
+                                                <div class="detected-cat">POLYPHONIC ANALOG</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="detected-conf">98%</div>
+                                            <div class="detected-conf-lbl">CONF</div>
+                                        </div>
+                                    </div>
+                                    <div class="spectrum-bars">
+                                        <div class="spectrum-bar" style="height: 20%;"></div><div class="spectrum-bar" style="height: 40%;"></div>
+                                        <div class="spectrum-bar" style="height: 80%;"></div><div class="spectrum-bar" style="height: 100%;"></div>
+                                        <div class="spectrum-bar" style="height: 60%;"></div><div class="spectrum-bar" style="height: 90%;"></div>
+                                        <div class="spectrum-bar" style="height: 30%;"></div><div class="spectrum-bar" style="height: 50%;"></div>
+                                        <div class="spectrum-bar" style="height: 15%;"></div><div class="spectrum-bar" style="height: 10%;"></div>
+                                    </div>
+                                </div>
+                            </div>

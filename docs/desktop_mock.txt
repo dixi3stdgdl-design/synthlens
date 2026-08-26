@@ -1,0 +1,54 @@
+                            <div class="mock-ui-container library-desktop">
+                                <div class="lib-header">
+                                    <div class="lib-header-left">OSC_SCANNER_V1</div>
+                                    <div class="lib-header-right">● SYS_READY</div>
+                                </div>
+                                <div>
+                                    <div class="lib-title">SYSTEM_PATCH_BAY</div>
+                                    <div class="lib-subtitle">2 HARDWARE_UNITS DETECTED IN RACK</div>
+                                </div>
+                                <div class="lib-search">
+                                    <span style="color:#00F0FF; opacity:0.5;">&#128269;</span> FILTER_HARDWARE...
+                                </div>
+                                <div class="lib-filters">
+                                    <div class="lib-filter active">ALL</div>
+                                    <div class="lib-filter">ANALOG</div>
+                                    <div class="lib-filter">DIGITAL</div>
+                                    <div class="lib-filter">MODULAR</div>
+                                </div>
+                                <div class="lib-cards">
+                                    <!-- Card 1 -->
+                                    <div class="lib-card detected">
+                                        <div class="card-icon">🎹</div>
+                                        <div class="card-info">
+                                            <div class="card-title-row">
+                                                <div class="card-dot detected"></div>
+                                                <div class="card-title">ROLAND JUNO-106</div>
+                                                <div class="card-badge">DETECTED</div>
+                                            </div>
+                                            <div class="card-brand">ROLAND</div>
+                                            <div class="card-cat">POLYPHONIC ANALOG SYNTHESIZER</div>
+                                            <div class="card-specs">
+                                                <div class="card-spec"><span class="card-spec-lbl">OSC: </span><span class="card-spec-val cyan">DCO (SAW, PULSE)</span></div>
+                                                <div class="card-spec"><span class="card-spec-lbl">FILT: </span><span class="card-spec-val magenta">24DB/OCT LPF</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card 2 -->
+                                    <div class="lib-card">
+                                        <div class="card-icon">🎛️</div>
+                                        <div class="card-info">
+                                            <div class="card-title-row">
+                                                <div class="card-dot"></div>
+                                                <div class="card-title">MOOG SUBSEQUENT 37</div>
+                                            </div>
+                                            <div class="card-brand">MOOG</div>
+                                            <div class="card-cat">PARAPHONIC ANALOG SYNTHESIZER</div>
+                                            <div class="card-specs">
+                                                <div class="card-spec"><span class="card-spec-lbl">OSC: </span><span class="card-spec-val cyan">2X VCO</span></div>
+                                                <div class="card-spec"><span class="card-spec-lbl">FILT: </span><span class="card-spec-val magenta">MULTIDRIVE LADDER</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>

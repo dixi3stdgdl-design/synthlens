@@ -369,9 +369,56 @@ fun AnalyzerScreen(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-
-
-        Spacer(modifier = Modifier.height(6.dp))
+        // AI Provenance Engine Panel
+        if (isRecording) {
+            val aiProb = analysis.aiProbability
+            val isAI = aiProb > 0.5f
+            val panelColor = if (isAI) SynthRed else SynthGreen
+            val labelStr = if (isAI) "AI DETECTED" else "ANALOG AUTHENTIC"
+            val percentStr = "${(if (isAI) aiProb * 100 else (1f - aiProb) * 100).toInt()}%"
+            
+            SynthPanel(
+                modifier = Modifier.fillMaxWidth(),
+                label = "PROVENANCE ENGINE (BETA)",
+                glowColor = panelColor,
+                glowIntensity = 0.25f
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            LEDIndicator("AUTH", !isAI, panelColor)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                labelStr,
+                                color = panelColor.copy(alpha = (0.8f + 0.2f * boost).coerceIn(0f, 1f)),
+                                fontSize = if (isBright) 14.sp else 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Monospace
+                            )
+                        }
+                        Text(
+                            percentStr,
+                            color = panelColor,
+                            fontSize = if (isBright) 16.sp else 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Monospace
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(8.dp))
+                    
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        SynthChip("PHASE", "${(analysis.phaseCoherence * 100).toInt()}%", if (analysis.phaseCoherence > 0.5f) SynthGreen else SynthRed, Modifier.weight(1f))
+                        SynthChip("HF CUT", "${(analysis.highFrequencyRolloff * 100).toInt()}%", if (analysis.highFrequencyRolloff < 0.5f) SynthGreen else SynthRed, Modifier.weight(1f))
+                        SynthChip("ATK", "${(analysis.transientSharpness * 100).toInt()}%", if (analysis.transientSharpness > 0.3f) SynthGreen else SynthAmber, Modifier.weight(1f))
+                    }
+                }
+            }
+        }
 
         SynthPanel(
             modifier = Modifier.fillMaxWidth(),

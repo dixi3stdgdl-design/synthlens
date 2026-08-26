@@ -64,7 +64,13 @@ data class AudioAnalysis(
     val spectralBandwidth: Float = 0f,
     val harmonicToNoiseRatio: Float = 0f,
     val noteName: String = "",
-    val harmonicCount: Int = 0
+    val harmonicCount: Int = 0,
+    
+    // AI Provenance Detection Metrics
+    val aiProbability: Float = 0f,
+    val phaseCoherence: Float = 1f,
+    val highFrequencyRolloff: Float = 0f,
+    val transientSharpness: Float = 1f
 )
 
 interface AudioEngine {

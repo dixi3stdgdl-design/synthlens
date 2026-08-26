@@ -619,14 +619,17 @@ fun RadialOrbitalSphere(
             for (s in 0..segments) {
                 val angle = (s.toFloat() / segments * 360f + ringRotation) * PI.toFloat() / 180f
 
-                val specIndex = ((s.toFloat() / segments) * spectrumData.size).toInt()
-                    .coerceIn(0, spectrumData.size - 1)
+                val specIndex = if (spectrumData.isNotEmpty()) {
+                    ((s.toFloat() / segments) * spectrumData.size).toInt()
+                        .coerceIn(0, spectrumData.size - 1)
+                } else 0
                 val specValue = if (spectrumData.isNotEmpty()) spectrumData[specIndex] else 0f
 
-                val harmonicIndex = ((s.toFloat() / segments) * harmonicProfile.size).toInt()
-                    .coerceIn(0, (harmonicProfile.size - 1).coerceAtLeast(0))
-                val harmonicValue = if (harmonicProfile.isNotEmpty() && harmonicIndex < harmonicProfile.size)
-                    harmonicProfile[harmonicIndex] else 0f
+                val harmonicIndex = if (harmonicProfile.isNotEmpty()) {
+                    ((s.toFloat() / segments) * harmonicProfile.size).toInt()
+                        .coerceIn(0, harmonicProfile.size - 1)
+                } else 0
+                val harmonicValue = if (harmonicProfile.isNotEmpty()) harmonicProfile[harmonicIndex] else 0f
 
                 val modulation = 1f + specValue * 0.4f * breathe + harmonicValue * 0.0008f
                 val r = baseRadius * modulation
