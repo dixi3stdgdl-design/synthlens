@@ -13,7 +13,10 @@
 
 Here's a glimpse into the sleek, dark-themed, and modern aesthetic of SynthLens:
 
-
+<p align="center">
+  <img src="docs/images/app_screenshot_analyzer.png" width="300" alt="SynthLens Analyzer Screen" />
+  <img src="docs/images/app_screenshot_specs.png" width="300" alt="SynthLens System Specs Screen" />
+</p>
 
 *Left: The real-time Analyzer displaying waveform, spectrum, and detected parameters. Right: The organized Patch Database keeping track of your favorite sounds.*
 
@@ -74,11 +77,6 @@ Built with modern Android development practices to ensure performance and mainta
 ---
 
 ## 🛠️ Development & Building
-
-<p align="center">
-  <img src="docs/images/app_screenshot_analyzer.png" width="300" alt="SynthLens Analyzer Screen" />
-  <img src="docs/images/app_screenshot_specs.png" width="300" alt="SynthLens System Specs Screen" />
-</p>
 
 ### Prerequisites
 
