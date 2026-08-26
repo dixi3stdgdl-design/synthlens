@@ -75,6 +75,11 @@ Built with modern Android development practices to ensure performance and mainta
 
 ## 🛠️ Development & Building
 
+<p align="center">
+  <img src="docs/images/app_screenshot_analyzer.png" width="300" alt="SynthLens Analyzer Screen" />
+  <img src="docs/images/app_screenshot_specs.png" width="300" alt="SynthLens System Specs Screen" />
+</p>
+
 ### Prerequisites
 
 - Android Studio Hedgehog (2023.1.1) or newer
