@@ -28,9 +28,44 @@
     <div class="site-wrapper">
         <!-- Header -->
         <header class="header fade-in-up">
-            <div class="logo">
-                <span class="logo-icon">🎧</span>
-                <h1>Synth<span class="highlight-cyan">Lens</span></h1>
+            <div class="logo hover-magnetic">
+                <svg class="logo-svg" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px var(--synth-cyan));">
+                    <!-- Tech Ring -->
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="var(--synth-cyan)" stroke-width="2" stroke-dasharray="15 5 5 5" opacity="0.8">
+                        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite" />
+                    </circle>
+                    <!-- Inner Ring -->
+                    <circle cx="50" cy="50" r="35" fill="none" stroke="var(--synth-magenta)" stroke-width="1" stroke-dasharray="10 10" opacity="0.6">
+                        <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="15s" repeatCount="indefinite" />
+                    </circle>
+                    <!-- Center Core (Lens/Eye) -->
+                    <circle cx="50" cy="50" r="15" fill="url(#core-grad)" opacity="0.9">
+                        <animate attributeName="r" values="12; 16; 12" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <!-- Audio Wave Bars -->
+                    <rect x="35" y="40" width="4" height="20" fill="#fff" rx="2">
+                        <animate attributeName="height" values="10; 25; 10" dur="0.8s" repeatCount="indefinite" />
+                        <animate attributeName="y" values="45; 37.5; 45" dur="0.8s" repeatCount="indefinite" />
+                    </rect>
+                    <rect x="48" y="30" width="4" height="40" fill="#fff" rx="2">
+                        <animate attributeName="height" values="20; 50; 20" dur="0.5s" repeatCount="indefinite" />
+                        <animate attributeName="y" values="40; 25; 40" dur="0.5s" repeatCount="indefinite" />
+                    </rect>
+                    <rect x="61" y="40" width="4" height="20" fill="#fff" rx="2">
+                        <animate attributeName="height" values="15; 35; 15" dur="0.7s" repeatCount="indefinite" />
+                        <animate attributeName="y" values="42.5; 32.5; 42.5" dur="0.7s" repeatCount="indefinite" />
+                    </rect>
+                    <defs>
+                        <radialGradient id="core-grad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                            <stop offset="0%" stop-color="var(--synth-amber)" />
+                            <stop offset="100%" stop-color="#cc8800" />
+                        </radialGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text" style="display: flex; flex-direction: column; align-items: flex-start;">
+                    <h1 style="line-height: 0.9; margin: 0; padding: 0;">Synth<span class="highlight-cyan">Lens</span></h1>
+                    <span class="logo-version" style="font-size: 0.65rem; color: var(--synth-amber); letter-spacing: 3px; text-transform: uppercase; font-family: var(--font-body); font-weight: 700; opacity: 0.8;">OSINT Engine v2.0</span>
+                </div>
             </div>
             <nav class="nav">
                 <a href="#library">The Library</a>
@@ -208,9 +243,44 @@
         <footer class="footer glass-panel fade-in-up delay-1">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="logo">
-                        <span class="logo-icon">🎧</span>
-                        <h2>Synth<span class="highlight-cyan">Lens</span></h2>
+                    <div class="logo hover-magnetic">
+                        <svg class="logo-svg" width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px var(--synth-cyan));">
+                            <!-- Tech Ring -->
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--synth-cyan)" stroke-width="2" stroke-dasharray="15 5 5 5" opacity="0.8">
+                                <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite" />
+                            </circle>
+                            <!-- Inner Ring -->
+                            <circle cx="50" cy="50" r="35" fill="none" stroke="var(--synth-magenta)" stroke-width="1" stroke-dasharray="10 10" opacity="0.6">
+                                <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="15s" repeatCount="indefinite" />
+                            </circle>
+                            <!-- Center Core (Lens/Eye) -->
+                            <circle cx="50" cy="50" r="15" fill="url(#core-grad-footer)" opacity="0.9">
+                                <animate attributeName="r" values="12; 16; 12" dur="2s" repeatCount="indefinite" />
+                            </circle>
+                            <!-- Audio Wave Bars -->
+                            <rect x="35" y="40" width="4" height="20" fill="#fff" rx="2">
+                                <animate attributeName="height" values="10; 25; 10" dur="0.8s" repeatCount="indefinite" />
+                                <animate attributeName="y" values="45; 37.5; 45" dur="0.8s" repeatCount="indefinite" />
+                            </rect>
+                            <rect x="48" y="30" width="4" height="40" fill="#fff" rx="2">
+                                <animate attributeName="height" values="20; 50; 20" dur="0.5s" repeatCount="indefinite" />
+                                <animate attributeName="y" values="40; 25; 40" dur="0.5s" repeatCount="indefinite" />
+                            </rect>
+                            <rect x="61" y="40" width="4" height="20" fill="#fff" rx="2">
+                                <animate attributeName="height" values="15; 35; 15" dur="0.7s" repeatCount="indefinite" />
+                                <animate attributeName="y" values="42.5; 32.5; 42.5" dur="0.7s" repeatCount="indefinite" />
+                            </rect>
+                            <defs>
+                                <radialGradient id="core-grad-footer" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                    <stop offset="0%" stop-color="var(--synth-amber)" />
+                                    <stop offset="100%" stop-color="#cc8800" />
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                        <div class="logo-text" style="display: flex; flex-direction: column; align-items: flex-start;">
+                            <h2 style="line-height: 0.9; margin: 0; padding: 0;">Synth<span class="highlight-cyan">Lens</span></h2>
+                            <span class="logo-version" style="font-size: 0.65rem; color: var(--synth-amber); letter-spacing: 3px; text-transform: uppercase; font-family: var(--font-body); font-weight: 700; opacity: 0.8;">OSINT Engine v2.0</span>
+                        </div>
                     </div>
                     <p class="tagline">The ultimate toolkit for Sound Designers and Synthesizer Enthusiasts.</p>
                 </div>
