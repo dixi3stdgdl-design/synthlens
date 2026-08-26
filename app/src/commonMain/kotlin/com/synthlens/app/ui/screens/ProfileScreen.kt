@@ -40,7 +40,8 @@ fun ProfileScreen(
     onNavigateToBatchProcessing: () -> Unit = {},
     onNavigateToCloudWorkspace: () -> Unit = {},
     onNavigateToHardwareIntegration: () -> Unit = {},
-    onNavigateToQADashboard: () -> Unit = {}
+    onNavigateToQADashboard: () -> Unit = {},
+    onNavigateToSubscription: () -> Unit = {}
 ) {
     val detectedCount by viewModel.detectedCount.collectAsState()
     val totalCount by viewModel.totalCount.collectAsState()
@@ -108,6 +109,7 @@ fun ProfileScreen(
                 FeatureButton("DAW_INTEGRATION", "MIDI/OSC output for your DAW", Icons.Default.SettingsInputHdmi, SynthPurple, onNavigateToDAW)
                 FeatureButton("CAMERA_SCANNER", "Visual synth detection via camera", Icons.Default.CameraAlt, SynthCyan, onNavigateToScanner)
                 FeatureButton("SETTINGS", "App configuration", Icons.Default.Tune, DarkOnSurfaceVariant, onNavigateToSettings)
+                FeatureButton("UPGRADE_SYNTHLENS", "Unlock Pro and Enterprise features", Icons.Default.Star, SynthAmber, onNavigateToSubscription)
             }
         }
 

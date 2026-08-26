@@ -19,4 +19,5 @@ sealed class Screen(val route: String) {
     object QADashboard : Screen("qa_dashboard")
     object Settings : Screen("settings")
     object Achievements : Screen("achievements")
+    object Subscription : Screen("subscription")
 }

@@ -205,7 +205,8 @@ fun SynthLensApp(audioEngine: AudioEngine) {
                         onNavigateToBatchProcessing = { navController.navigate(Screen.BatchProcessing.route) },
                         onNavigateToCloudWorkspace = { navController.navigate(Screen.CloudWorkspace.route) },
                         onNavigateToHardwareIntegration = { navController.navigate(Screen.HardwareIntegration.route) },
-                        onNavigateToQADashboard = { navController.navigate(Screen.QADashboard.route) }
+                        onNavigateToQADashboard = { navController.navigate(Screen.QADashboard.route) },
+                        onNavigateToSubscription = { navController.navigate(Screen.Subscription.route) }
                     )
                 }
                 composable(Screen.BatchProcessing.route) {
@@ -228,6 +229,11 @@ fun SynthLensApp(audioEngine: AudioEngine) {
                 composable(Screen.Achievements.route) {
                     AchievementsScreen(
                         achievements = emptyList(),
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+                composable(Screen.Subscription.route) {
+                    SubscriptionScreen(
                         onBack = { navController.popBackStack() }
                     )
                 }

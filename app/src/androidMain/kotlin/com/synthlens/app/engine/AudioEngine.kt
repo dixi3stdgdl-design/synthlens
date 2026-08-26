@@ -77,7 +77,7 @@ class AndroidAudioEngine(
     private val scope = scopeConfig
     private val stemSeparator = StemSeparator()
     private val stemAnalyzer = StemAnalyzer()
-    private val synthDetector = SynthLensDetector(context)
+    private val mlClassifier = SynthMLClassifier(context)
 
 
     private val _analysis = MutableStateFlow(AudioAnalysis())
@@ -201,20 +201,41 @@ class AndroidAudioEngine(
                                         && harmonics[0] > 0.001f
                                         && hasTonalContent(spectrum, frequency)
 
+                                val currentTempAnalysis = AudioAnalysis(
+                                    frequency = frequency,
+                                    amplitude = amplitude,
+                                    waveformType = waveformType,
+                                    octaves = frequencyToOctave(frequency),
+                                    rmsLevel = 20 * log10(amplitude.coerceAtLeast(0.0001f)),
+                                    peakLevel = 20 * log10(peak.coerceAtLeast(0.0001f)),
+                                    thd = thd,
+                                    spectrumData = spectrum,
+                                    waveformPoints = emptyList(), // Filled later
+                                    harmonics = harmonics,
+                                    isDetecting = true,
+                                    detectionPhase = currentPhase,
+                                    detectedSong = currentSong,
+                                    detectedArtist = currentArtist,
+                                    spectralFlatness = flatness,
+                                    spectralRolloff = rolloff,
+                                    spectralBandwidth = bandwidth,
+                                    harmonicToNoiseRatio = hnr,
+                                    harmonicCount = harmonics.size
+                                )
+
                                 val detected = if (currentPhase == 2 && hasRealSignal) {
-                                    val detectionResult = synthDetector.detect(normalized)
-                                    val topMatch = detectionResult.topMatch
-                                    if (topMatch != null && topMatch.conf > 0.4f) {
-                                        val catalogMatch = SynthCatalogDB.searchByName(topMatch.name).firstOrNull()
+                                    val mlResult = mlClassifier.classify(currentTempAnalysis.toSynthFeatures())
+                                    if (mlResult != null && mlResult.confidence > 0.4f) {
+                                        val catalogMatch = SynthCatalogDB.searchByName(mlResult.synthName).firstOrNull()
                                         if (catalogMatch != null) {
-                                            catalogMatch.toDetectedSynthResult(topMatch.conf)
+                                            catalogMatch.toDetectedSynthResult(mlResult.confidence)
                                         } else {
                                             DetectedSynthResult(
-                                                name = topMatch.name,
-                                                brand = topMatch.brand,
-                                                category = topMatch.cat,
-                                                confidence = topMatch.conf,
-                                                frequencySignature = "${detectionResult.method}_${detectionResult.level}",
+                                                name = mlResult.synthName,
+                                                brand = mlResult.brand,
+                                                category = mlResult.category,
+                                                confidence = mlResult.confidence,
+                                                frequencySignature = mlResult.modelUsed,
                                                 waveformType = waveformType,
                                                 filterType = "",
                                                 oscillators = "",
@@ -241,38 +262,16 @@ class AndroidAudioEngine(
 
                                 val dominantStem = stemAnalysis?.dominantStem?.name
 
-
-
-                                // ── FIX: cierre correcto de AudioAnalysis ──
-                                _analysis.value = AudioAnalysis(
-                                    frequency = frequency,
-                                    amplitude = amplitude,
-                                    waveformType = waveformType,
-                                    octaves = frequencyToOctave(frequency),
-                                    rmsLevel = 20 * log10(amplitude.coerceAtLeast(0.0001f)),
-                                    peakLevel = 20 * log10(peak.coerceAtLeast(0.0001f)),
-                                    thd = thd,
-                                    spectrumData = spectrum,
+                                _analysis.value = currentTempAnalysis.copy(
                                     waveformPoints = waveformPoints,
-                                    harmonics = harmonics,
-                                    isDetecting = true,
-                                    detectionPhase = currentPhase,
-                                    detectedSong = currentSong,
-                                    detectedArtist = currentArtist,
                                     detectedSynth = detected,
-
                                     stemAnalysis = StemAnalysis(
                                         stems = stemProfiles,
                                         separationConfidence = stemAnalysis?.separationConfidence ?: 0f
                                     ),
                                     stemProfiles = stemProfiles,
                                     dominantStemName = dominantStem,
-                                    spectralFlatness = flatness,
-                                    spectralRolloff = rolloff,
-                                    spectralBandwidth = bandwidth,
-                                    harmonicToNoiseRatio = hnr,
-                                    noteName = noteName,
-                                    harmonicCount = harmonics.size
+                                    noteName = noteName
                                 )
                             } catch (_: Exception) {}
                         }
@@ -310,7 +309,7 @@ class AndroidAudioEngine(
 
     override fun destroy() {
         stopRecording()
-        synthDetector.close()
+        mlClassifier.close()
     }
 
     // ================================================================
