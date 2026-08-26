@@ -1143,6 +1143,48 @@ object SynthCatalogDB {
             description = "Iconic 6-voice analog polysynth famous for its lush chorus and warm pads. A studio staple of the 80s."
         ))
 
+        add("roland_juno_106", SynthInfo(
+            id = "roland_juno_106", name = "JUNO-106", brand = "Roland",
+            year = 1984, category = SynthCategory.POLY_SYNTH,
+            synthesisType = SynthType.ANALOG_HARDWARE, polyphony = 6,
+            oscillatorProfile = OscillatorProfile(1, listOf("saw","pulse","square"), hasSubOscillator=true, hasNoise=true, hasPWM=true, driftCents=FloatRange(0.5f,3f)),
+            filterProfile = FilterProfile("Roland 80017A VCF/VCA", listOf(24), hasResonance=true, hasSelfOscillation=true, hasKeyTracking=true),
+            envelopeProfile = EnvelopeProfile(1, hasDAHDSR=true),
+            modulationProfile = ModulationProfile(1, listOf("sine","triangle","S&H"), hasArpeggiator=false, hasChord=true),
+            physicalProfile = PhysicalProfile("Keyboard", 61, hasMIDI=true, hasCV=false),
+            purchaseInfo = PurchaseInfo(
+                officialUrl = "https://www.roland.com/global/categories/juno/",
+                brandUrl = "https://www.roland.com",
+                priceUSD = 1800f, priceEUR = 1650f, availability = Availability.USED_ONLY,
+                isDiscontinued = true,
+                buyLinks = listOf(BuyLink("Reverb", "https://reverb.com/marketplace?query=roland+juno+106", StoreType.USED_MARKET))
+            ),
+            tags = listOf("analog","6-voice","polyphonic","vintage","chorus","classic","80s","midi"),
+            presetCount = 128,
+            description = "One of the most iconic analog polyphonic synthesizers in history. Famous for its on-board analog chorus and warm DCO sound."
+        ))
+
+        add("roland_tb_303", SynthInfo(
+            id = "roland_tb_303", name = "TB-303 Bass Line", brand = "Roland",
+            year = 1981, category = SynthCategory.MONO_SYNTH,
+            synthesisType = SynthType.ANALOG_HARDWARE, polyphony = 1,
+            oscillatorProfile = OscillatorProfile(1, listOf("saw","square"), driftCents=FloatRange(2f,8f)),
+            filterProfile = FilterProfile("Roland Transistor Ladder LP", listOf(18, 24), hasResonance=true, hasSelfOscillation=true),
+            envelopeProfile = EnvelopeProfile(1),
+            modulationProfile = ModulationProfile(0, emptyList(), hasSequencer=true, sequencerSteps=16),
+            physicalProfile = PhysicalProfile("Desktop Module", 0, hasMIDI=false, hasCV=true),
+            purchaseInfo = PurchaseInfo(
+                officialUrl = "https://www.roland.com/global/categories/tb/",
+                brandUrl = "https://www.roland.com",
+                priceUSD = 2800f, priceEUR = 2600f, availability = Availability.USED_ONLY,
+                isDiscontinued = true,
+                buyLinks = listOf(BuyLink("Reverb", "https://reverb.com/marketplace?query=roland+tb-303", StoreType.USED_MARKET))
+            ),
+            tags = listOf("analog","monophonic","acid","bassline","legendary","vintage","80s"),
+            presetCount = 0,
+            description = "The definitive acid techno and house bassline synthesizer with its signature resonant squelch filter and pattern sequencer."
+        ))
+
         add("roland_sh_101", SynthInfo(
             id = "roland_sh_101", name = "SH-101", brand = "Roland",
             year = 1982, category = SynthCategory.MONO_SYNTH,
@@ -1445,8 +1487,114 @@ object SynthCatalogDB {
     }
 
     // ================================================================
-    //  ÍNDICES DE BÚSQUEDA
+    //  ÍNDICES DE BÚSQUEDA Y RESOLUCIÓN CANÓNICA
     // ================================================================
+
+    private val aliases = mapOf(
+        "moog_model_d" to "moog_model_d",
+        "moog_minimoog" to "moog_minimoog",
+        "moog_sub37" to "moog_sub37",
+        "moog_grandmother" to "moog_grandmother",
+        "moog_matriarch" to "moog_matriarch",
+        "moog_subsequent25" to "moog_sub37",
+        "moog_one" to "moog_muse",
+        "korg_ms20" to "korg_ms20",
+        "korg_minilogue_xd" to "korg_minilogue_xd",
+        "korg_monologue" to "korg_monologue",
+        "korg_prologue" to "korg_prologue",
+        "korg_opsix" to "korg_opsix",
+        "korg_wavestation" to "korg_wavestate",
+        "korg_wavestate" to "korg_wavestate",
+        "roland_juno106" to "roland_juno_106",
+        "roland_juno_106" to "roland_juno_106",
+        "roland_juno60" to "roland_juno_60",
+        "roland_juno_60" to "roland_juno_60",
+        "roland_tb303" to "roland_tb_303",
+        "roland_tb_303" to "roland_tb_303",
+        "roland_sh101" to "roland_sh_101",
+        "roland_sh_101" to "roland_sh_101",
+        "roland_jupiter8" to "roland_jupiter_8",
+        "roland_jupiter_8" to "roland_jupiter_8",
+        "roland_system8" to "roland_jupiter_xm",
+        "sequential_prophet5" to "sequential_prophet5",
+        "sequential_prophet6" to "sequential_prophet6",
+        "sequential_pro3" to "sequential_pro_3",
+        "sequential_obx8" to "sequential_ob6",
+        "novation_peak" to "novation_peak",
+        "novation_summit" to "novation_summit",
+        "novation_bassstation2" to "novation_bass_station_2",
+        "arturia_matrixbrute" to "arturia_matrixbrute",
+        "arturia_microfreak" to "arturia_microfreak",
+        "arturia_minibrute2s" to "arturia_minibrute2s",
+        "arturia_polybrute" to "arturia_polybrute",
+        "behringer_model_d" to "behringer_model_d",
+        "behringer_deepmind12" to "behringer_deepmind12",
+        "behringer_td3" to "behringer_td3",
+        "behringer_poly_d" to "behringer_poly_d",
+        "behringer_pro_1" to "behringer_pro_1",
+        "behringer_neutron" to "behringer_neutron",
+        "behringer_crave" to "behringer_crave",
+        "behringer_rd8" to "behringer_rd8",
+        "behringer_ubxa" to "behringer_ubxa",
+        "yamaha_dx7" to "yamaha_dx7",
+        "yamaha_montage" to "yamaha_montage",
+        "waldorf_iriidium" to "waldorf_iridium",
+        "waldorf_blofeld" to "waldorf_blofeld",
+        "elektron_digitakt" to "elektron_digitakt",
+        "elektron_digitone" to "elektron_digitone",
+        "elektron_analog_four" to "elektron_analog_four",
+        "elektron_analogfour" to "elektron_analog_four",
+        "teenage_op1_field" to "teenage_engineering_op1",
+        "teenage_op1" to "teenage_engineering_op1"
+    )
+
+    fun findMatch(query: String, brandHint: String? = null): SynthInfo? {
+        val cleanQuery = query.lowercase().trim()
+        val normalizedId = cleanQuery.replace(" ", "_").replace("-", "_")
+
+        // 1. Direct ID match
+        catalog[normalizedId]?.let { return it }
+
+        // 2. Alias match
+        aliases[normalizedId]?.let { aliasId ->
+            catalog[aliasId]?.let { return it }
+        }
+
+        // 3. Normalized alias matching
+        aliases.entries.firstOrNull { it.key in normalizedId || normalizedId in it.key }?.let {
+            catalog[it.value]?.let { return it }
+        }
+
+        // 4. Token-based scoring
+        val tokens = cleanQuery.split(" ", "_", "-").filter { it.length > 1 }
+        var bestScore = 0
+        var bestMatch: SynthInfo? = null
+
+        for (synth in catalog.values) {
+            var score = 0
+            val synthName = synth.name.lowercase()
+            val synthBrand = synth.brand.lowercase()
+            val synthId = synth.id.lowercase()
+
+            if (brandHint != null && synthBrand.contains(brandHint.lowercase())) {
+                score += 15
+            }
+
+            for (token in tokens) {
+                if (synthName.contains(token)) score += 25
+                if (synthBrand.contains(token)) score += 15
+                if (synthId.contains(token)) score += 20
+                if (synth.tags.any { it.contains(token) }) score += 10
+            }
+
+            if (score > bestScore) {
+                bestScore = score
+                bestMatch = synth
+            }
+        }
+
+        return if (bestScore >= 20) bestMatch else searchByName(query).firstOrNull()
+    }
 
     fun searchByName(query: String): List<SynthInfo> {
         val q = query.lowercase()

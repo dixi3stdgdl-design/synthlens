@@ -171,34 +171,11 @@ class AndroidAudioEngine(
 
                         val waveformPoints = normalized.take(read).toList()
 
-                        // ── Lógica de Transición de Fases (Fingerprint API) ──
-                        if (currentPhase == 1 && !isFingerprinting) {
-                            fingerprintBuffer.addAll(normalized.take(read))
-                            // Aprox 3 segundos a 44100Hz = ~132300 samples
-                            if (fingerprintBuffer.size >= 132300) {
-                                isFingerprinting = true
-                                val audioData = fingerprintBuffer.toFloatArray()
-                                scope.launch {
-                                    val result = NetworkClient.recognizeAudio(audioData, SAMPLE_RATE)
-                                    if (result != null) {
-                                        currentSong = result.first
-                                        currentArtist = result.second
-                                    } else {
-                                        currentSong = "No Match / Error"
-                                        currentArtist = "API Error"
-                                    }
-                                    currentPhase = 2
-                                    fingerprintBuffer.clear()
-                                }
-                            }
-                        }
-
-                        // ── Detección cada 4 frames ──
+                        // ── Detección en Tiempo Real Instantánea (cada 4 frames) ──
                         if (frameCount % 4 == 0) {
                             try {
-                                val hasRealSignal = amplitude > 0.08f
+                                val hasRealSignal = amplitude > 0.015f
                                         && harmonics.isNotEmpty()
-                                        && harmonics[0] > 0.001f
                                         && hasTonalContent(spectrum, frequency)
 
                                 val currentTempAnalysis = AudioAnalysis(
@@ -213,7 +190,7 @@ class AndroidAudioEngine(
                                     waveformPoints = emptyList(), // Filled later
                                     harmonics = harmonics,
                                     isDetecting = true,
-                                    detectionPhase = currentPhase,
+                                    detectionPhase = 2,
                                     detectedSong = currentSong,
                                     detectedArtist = currentArtist,
                                     spectralFlatness = flatness,
@@ -223,10 +200,11 @@ class AndroidAudioEngine(
                                     harmonicCount = harmonics.size
                                 )
 
-                                val detected = if (currentPhase == 2 && hasRealSignal) {
-                                    val mlResult = mlClassifier.classify(currentTempAnalysis.toSynthFeatures())
-                                    if (mlResult != null && mlResult.confidence > 0.4f) {
-                                        val catalogMatch = SynthCatalogDB.searchByName(mlResult.synthName).firstOrNull()
+                                val detected = if (hasRealSignal) {
+                                    val features = currentTempAnalysis.toSynthFeatures()
+                                    val mlResult = mlClassifier.classify(features)
+                                    if (mlResult != null && mlResult.confidence >= 0.35f) {
+                                        val catalogMatch = SynthCatalogDB.findMatch(mlResult.synthName, mlResult.brand)
                                         if (catalogMatch != null) {
                                             catalogMatch.toDetectedSynthResult(mlResult.confidence)
                                         } else {
@@ -237,12 +215,12 @@ class AndroidAudioEngine(
                                                 confidence = mlResult.confidence,
                                                 frequencySignature = mlResult.modelUsed,
                                                 waveformType = waveformType,
-                                                filterType = "",
-                                                oscillators = "",
-                                                modulation = "",
-                                                daw = "",
+                                                filterType = "Analog VCF / Multi-mode",
+                                                oscillators = "VCO / DCO Sub-osc",
+                                                modulation = "LFO / Mod Matrix",
+                                                daw = "Hardware",
                                                 effects = "",
-                                                pattern = ""
+                                                pattern = mlResult.category
                                             )
                                         }
                                     } else null

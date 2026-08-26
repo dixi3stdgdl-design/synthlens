@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dixi3stdgdl-design.github.io/synthlens/sitemap.xml
