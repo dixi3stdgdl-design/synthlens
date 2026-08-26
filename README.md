@@ -13,11 +13,7 @@
 
 Here's a glimpse into the sleek, dark-themed, and modern aesthetic of SynthLens:
 
-<p align="center">
-  <img src="docs/images/analyzer_ui.jpg" width="45%" alt="Real-time Analyzer UI" />
-  &nbsp;&nbsp;
-  <img src="docs/images/patch_database_ui.jpg" width="45%" alt="Patch Database UI" />
-</p>
+
 
 *Left: The real-time Analyzer displaying waveform, spectrum, and detected parameters. Right: The organized Patch Database keeping track of your favorite sounds.*
 
@@ -127,4 +123,5 @@ This project is open-source and licensed under the MIT License - see the [LICENS
   <b>Built with ❤️ by Dixi3 Lqbs With MiMo Team</b><br>
   <a href="https://github.com/dixi3stdgdl-design">GitHub Profile</a>
 </p>
+
 
