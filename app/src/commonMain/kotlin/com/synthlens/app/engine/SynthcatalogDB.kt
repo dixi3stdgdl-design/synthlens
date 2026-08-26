@@ -15,6 +15,16 @@ package com.synthlens.app.engine
 //  DATA MODEL
 // ================================================================
 
+data class FloatRange(val min: Float, val max: Float) {
+    fun contains(v: Float) = v in min..max
+    fun matchScore(v: Float): Float = when {
+        contains(v) -> 1f
+        v < min -> (1f - (min - v) / (min + 0.001f)).coerceIn(0f, 1f)
+        else -> (1f - (v - max) / (max + 0.001f)).coerceIn(0f, 1f)
+    }
+}
+
+
 data class SynthInfo(
     val id: String,                    // ID unico (ej: "moog_sub37")
     val name: String,                  // Nombre comercial
