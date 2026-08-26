@@ -1,3 +1,7 @@
-github: dixi3stdgdl-design
-buy_me_a_coffee: dixi3stdgdl
-# custom: ["https://www.paypal.me/tu_usuario"]
+# These are supported funding model platforms
+
+# GitHub Sponsors
+# github: [dixi3stdgdl-design]
+
+# PayPal / Buy Me A Coffee (Replace with your actual links)
+custom: ['https://paypal.me/TU_USUARIO_AQUI', 'https://buymeacoffee.com/TU_USUARIO_AQUI']
