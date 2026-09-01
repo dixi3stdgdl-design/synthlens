@@ -1,6 +1,6 @@
 # 🎹 SynthLens - The Ultimate AI Synthesizer Analyzer
 
-🌍 **Official Website:** [https://dixi3stdgdl-design.github.io/synthlens/](https://dixi3stdgdl-design.github.io/synthlens/)
+🌍 **Official Website:** [https://synthlens.ai/](https://synthlens.ai/)
 ![Android Version](https://img.shields.io/badge/Android-8.0%2B-green.svg)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-purple.svg)
